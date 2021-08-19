@@ -1,7 +1,7 @@
-# wink-grammarshowcase
+# winkNLP grammar showcase
 
-##Steps to build
-  - clone/fork the repo
-  - npm install
-  - browserify a.js -o bundle.js
-  - run a.html on a live server
+## Steps to build
+  - Clone/Fork the repo
+  - `npm install` (Make sure npm is already installed)
+  - `browserify main.js -o bundle.js`
+  - run index.html on a live server

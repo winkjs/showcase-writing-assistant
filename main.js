@@ -1,9 +1,9 @@
 var grammar = require('./grammar');
-var container = document.getElementById('.container');
-var backdrop = document.getElementById('.backdrop');
-var highlights = document.getElementById('.highlights');
-var textarea = document.getElementById('textarea');
-var toggle = document.getElementById('button');
+var $container = $('.container');
+var $backdrop = $('.backdrop');
+var $highlights = $('.highlights');
+var $textarea = $('textarea');
+var $toggle = $('button');
 
 /**
  * @param {text} text Input text
@@ -11,27 +11,39 @@ var toggle = document.getElementById('button');
  */
 const applyHighlights = (text) => grammar.checkContractions(text);
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const handleInput = () => {
-  var text = textarea.val();
+  var text = $textarea.val();
   var highlightedText = applyHighlights(text);
-  highlights.html(highlightedText);
+  $highlights.html(highlightedText);
 };
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const handleScroll = () => {
-  var scrollTop = textarea.scrollTop();
-  backdrop.scrollTop(scrollTop);
-  var scrollLeft = textarea.scrollLeft();
-  backdrop.scrollLeft(scrollLeft);
+  var scrollTop = $textarea.scrollTop();
+  $backdrop.scrollTop(scrollTop);
+  var scrollLeft = $textarea.scrollLeft();
+  $backdrop.scrollLeft(scrollLeft);
 };
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const bindEvents = () => {
-  textarea.on({
+  $textarea.on({
     input: handleInput,
     scroll: handleScroll,
   });
 
-  toggle.on('click', function () {
-    container.toggleClass('perspective');
+  $toggle.on('click', function () {
+    $container.toggleClass('perspective');
   });
 };
 

@@ -12,11 +12,22 @@ const as = nlp.as;
 
 exports.checkContractions = (text) => {
     const doc = nlp.readDoc(text);
-    const tokens = doc.tokens().out(its.value, as.array);
-    const contractionFlag = doc.tokens().out(its.contractionFlag, as.array);
-    console.log(tokens);
-    console.log(contractionFlag);
+    const tokens = doc.tokens();
+    const filteredTokens = doc.tokens().filter( (token) => (token.out(its.contractionFlag) === true) );
+    // console.log(tokens.out(its.value, as.array));
+    // console.log(tokens.out(its.contractionFlag, as.array));
+    // console.log(filteredTokens.out(its.value, as.array));
+    // console.log(filteredTokens.out(its.contractionFlag, as.value));
 
+    const contractions = filteredTokens.out(its.value, as.array);
+    console.log(contractions);
+    var count = 0;
+    for (var i in contractions) {
+      if (i % 2 !== 0 && contractions[i].charAt(1) !== '\'') {
+        count += 1;
+        console.log('Err!! ' + count);
+      }
+    }
     return 'Hello';
 };
 
@@ -39,11 +50,11 @@ exports.checkContractions = (text) => {
 
 },{"wink-eng-lite-web-model":21,"wink-nlp":75}],2:[function(require,module,exports){
 var grammar = require('./grammar');
-var container = document.getElementById('.container');
-var backdrop = document.getElementById('.backdrop');
-var highlights = document.getElementById('.highlights');
-var textarea = document.getElementById('textarea');
-var toggle = document.getElementById('button');
+var $container = $('.container');
+var $backdrop = $('.backdrop');
+var $highlights = $('.highlights');
+var $textarea = $('textarea');
+var $toggle = $('button');
 
 /**
  * @param {text} text Input text
@@ -51,27 +62,39 @@ var toggle = document.getElementById('button');
  */
 const applyHighlights = (text) => grammar.checkContractions(text);
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const handleInput = () => {
-  var text = textarea.val();
+  var text = $textarea.val();
   var highlightedText = applyHighlights(text);
-  highlights.html(highlightedText);
+  $highlights.html(highlightedText);
 };
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const handleScroll = () => {
-  var scrollTop = textarea.scrollTop();
-  backdrop.scrollTop(scrollTop);
-  var scrollLeft = textarea.scrollLeft();
-  backdrop.scrollLeft(scrollLeft);
+  var scrollTop = $textarea.scrollTop();
+  $backdrop.scrollTop(scrollTop);
+  var scrollLeft = $textarea.scrollLeft();
+  $backdrop.scrollLeft(scrollLeft);
 };
 
+/**
+ * @param {text} text Filler
+ * @returns {message} Filler
+ */
 const bindEvents = () => {
-  textarea.on({
+  $textarea.on({
     input: handleInput,
     scroll: handleScroll,
   });
 
-  toggle.on('click', function () {
-    container.toggleClass('perspective');
+  $toggle.on('click', function () {
+    $container.toggleClass('perspective');
   });
 };
 

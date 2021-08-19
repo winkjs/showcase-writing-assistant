@@ -11,11 +11,22 @@ const as = nlp.as;
 
 exports.checkContractions = (text) => {
     const doc = nlp.readDoc(text);
-    const tokens = doc.tokens().out(its.value, as.array);
-    const contractionFlag = doc.tokens().out(its.contractionFlag, as.array);
-    console.log(tokens);
-    console.log(contractionFlag);
+    // const tokens = doc.tokens();
+    const filteredTokens = doc.tokens().filter( (token) => (token.out(its.contractionFlag) === true) );
+    // console.log(tokens.out(its.value, as.array));
+    // console.log(tokens.out(its.contractionFlag, as.array));
+    // console.log(filteredTokens.out(its.value, as.array));
+    // console.log(filteredTokens.out(its.contractionFlag, as.value));
 
+    const contractions = filteredTokens.out(its.value, as.array);
+    console.log(contractions);
+    var count = 0;
+    for (var i in contractions) {
+      if (i % 2 !== 0 && contractions[i].charAt(1) !== '\'') {
+        count += 1;
+        console.log('Err!! ' + count);
+      }
+    }
     return 'Hello';
 };
 

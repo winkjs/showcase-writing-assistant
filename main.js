@@ -9,7 +9,11 @@ var $toggle = $('button');
  * @param {text} text Input text
  * @returns {message} returning '1'
  */
-const applyHighlights = (text) => grammar.checkContractions(text);
+const applyHighlights = (text) => {
+  text = grammar.checkContractions(text);
+  text = grammar.checkIncorrectPunctuationSpacing(text);
+  return grammar.checkFirstWordOfSentence(text);
+};
 
 /**
  * @param {text} text Filler

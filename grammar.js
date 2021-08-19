@@ -1,8 +1,8 @@
-const winkNLP = require('wink-nlp')
-const model = require('wink-eng-lite-web-model')
-const nlp = winkNLP(model)
-const its = nlp.its
-const as = nlp.as
+const winkNLP = require('wink-nlp');
+const model = require('wink-eng-lite-web-model');
+const nlp = winkNLP(model);
+const its = nlp.its;
+const as = nlp.as;
 
 /**
  * @param {text} text Input text
@@ -10,21 +10,13 @@ const as = nlp.as
  */
 
 exports.checkContractions = (text) => {
-  const doc = nlp.readDoc(text)
-  // const tokens = doc.tokens();
-  const filteredTokens = doc
-    .tokens()
-    .filter((token) => token.out(its.contractionFlag) === true)
-    
-
-  const contractions = filteredTokens.out(its.value, as.array)
-  console.log(contractions)
-  var count = 0
-  for (var i in contractions) {
-    if (i % 2 !== 0 && contractions[i].charAt(1) !== "'") {
-      filteredTokens.each((t) => t.markup())
-      text = doc.out(its.markedUpText)
-    }
-  }
-  return text
-}
+  var modifiedText = '';
+  const doc = nlp.readDoc(text);
+  const filteredTokens = doc.tokens().filter((token) => token.out(its.contractionFlag) === true);
+  const contractions = filteredTokens.out(its.value, as.array);
+  console.log(contractions);
+  filteredTokens.filter( (subtoken, index) => (index%2 !== 0) && !(subtoken.out(its.value).includes('\'')) ).each((t) => t.markup());
+  modifiedText = doc.out(its.markedUpText);
+  console.log(modifiedText)
+  return modifiedText;
+};

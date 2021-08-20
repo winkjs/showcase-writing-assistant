@@ -191,7 +191,7 @@ exports.highlightWordiness = (text) => {
  */
 exports.highlightUseOfOxymorons = (text) => {
   const patterns = [
-  { name: 'adverb_sent', patterns: [ '[act] [natural]',
+  { name: 'oxymorons', patterns: [ '[act] [natural]',
     '[action] [plan]',
     '[additional] [reduction]',
     '[adult] [children]',
@@ -209,13 +209,18 @@ exports.highlightUseOfOxymorons = (text) => {
     '[awfully] [good]',
     '[baby] [grand]',
     '[bad] [goods]',
-    '[backdoor] [front]' ] }];
+    '[backdoor] [front]'
+  
+  
+  
+  ] }];
 
   nlp.learnCustomEntities( patterns );
   const doc = nlp.readDoc( text );
 
-const adverbsentence = doc.customEntities()
+const oxymorons = doc.customEntities()
  .each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');
+ console.log("oxymoron detected")
 } );
 
   return doc.out(its.markedUpText);

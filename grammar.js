@@ -30,7 +30,7 @@ exports.checkIncorrectPunctuationSpacing = (text) => {
     .filter((token) => token.out(its.pos) === 'PUNCT' && token.out(its.value) === ',')
     .filter((token) => !(token.out(its.precedingSpaces) === ""))
     .each((token) => token.markup('<mark style="background-color: #B980F0">', '</mark>'));
-  console.log(doc.out(its.markedUpText));
+  // console.log(doc.out(its.markedUpText));
   return doc.out(its.markedUpText);
 };
 
@@ -52,8 +52,19 @@ exports.checkFirstWordOfSentence = (text) => {
  * @returns {string} a String marking all the uncapitalized first words.
  */
 exports.checkUseOfAdverbs = (text) => {
-  // -- Yet to be completed...
-  return text;
+
+  const patterns = [
+  { name: 'adverb_sent', patterns: [ '[ADV]' ] }];
+
+  nlp.learnCustomEntities( patterns );
+  const doc = nlp.readDoc( text );
+
+const adverbsentence = doc.customEntities()
+ .each( ( e ) => {e.parentSentence().markup('<mark style="background-color: #FFFFE0">', '</mark>');
+} );
+  // console.log( doc.customEntities().out());
+
+  return doc.out(its.markedUpText);
 };
 
 

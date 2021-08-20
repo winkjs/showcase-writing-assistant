@@ -11,12 +11,14 @@ var $toggle = $('button');
  * @returns {String} String with all the grammar rules markings.
  */
 const applyHighlights = (text) => {
-  text = grammar.checkIncorrectContractions(text);
-  text = grammar.checkIncorrectPunctuationSpacing(text);
-  text = grammar.checkFirstWordOfSentence(text);
+  grammar(text);
+  grammar.checkIncorrectContractions();
+  grammar.checkIncorrectPunctuationSpacing();
   text = grammar.checkUseOfAdverbs(text);
-  text = grammar.highlightUseOfOxymorons(text);
-  return text;
+  return grammar.getText();
+  // text = grammar.checkIncorrectPunctuationSpacing(text);
+  // text = grammar.checkFirstWordOfSentence(text);
+  // text = grammar.highlightUseOfOxymorons(text);
 };
 
 /**
@@ -26,6 +28,7 @@ const applyHighlights = (text) => {
 const handleInput = () => {
   var text = $textarea.val();
   var highlightedText = applyHighlights(text);
+  console.log(highlightedText);
   $highlights.html(highlightedText);
 };
 

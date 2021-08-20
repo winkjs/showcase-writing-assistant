@@ -6,13 +6,16 @@ var $textarea = $('textarea');
 var $toggle = $('button');
 
 /**
- * @param {text} text Input text
- * @returns {message} returning '1'
+ * @description Applies all the required highlights layer-by-layer.
+ * @param {String} text Input string from the text area.
+ * @returns {String} String with all the grammar rules markings.
  */
 const applyHighlights = (text) => {
-  text = grammar.checkContractions(text);
+  text = grammar.checkIncorrectContractions(text);
   text = grammar.checkIncorrectPunctuationSpacing(text);
-  return grammar.checkFirstWordOfSentence(text);
+  text = grammar.checkFirstWordOfSentence(text);
+  text = grammar.checkUseOfAdverbs(text);
+  return text;
 };
 
 /**

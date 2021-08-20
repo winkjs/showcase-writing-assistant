@@ -4,11 +4,11 @@
 2. ✅ Incorrect punctuation spacing — `yes,` v/s `yes ,`:
     - Approach 1 : check for PUNC entity and check for its.precedingSpaces
 
-3. First word of sentence is not capitalized
+3. ✅ First word of sentence is not capitalized
     - Check for its.case before a period PUNC and check if first word of sentence is Title Case
     - if not mark the parent word with a light color or manually capitalize it
 
-4. Use of adverbs should be discouraged
+4. ✅ Use of adverbs should be discouraged
     - Approach 1 : We can use Custom entity to make the use of adverbs
 
 5. Use of passive voice — [am/are/were/being/is/been/was/be] followed by a past tense verb

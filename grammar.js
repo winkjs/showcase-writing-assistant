@@ -33,15 +33,25 @@ exports.checkIncorrectPunctuationSpacing = (text) => {
   // console.log(doc.out(its.markedUpText));
   return doc.out(its.markedUpText);
 };
-
-
 /**
  * @description Check if the first word of sentence is capital or not.
  * @param {string} text Input text (may or may not contain markings).
  * @returns {string} a String marking all the uncapitalized first words.
  */
 exports.checkFirstWordOfSentence = (text) => {
-  // -- Yet to be completed...
+// const doc = nlp.readDoc( text );
+// // const token1 = doc.tokens().itemAt(0).out();
+
+// // console.log( token1);
+//   const t2 = doc.tokens().itemAt(0 )
+//   .each((token)=> console.log(token.out(its.case==='titleCase')))
+//   // .each((token) => token.markup());
+
+//   console.log( t2 )
+
+// const t2 = doc.tokens().itemAt( 4 ) // -> Inc.
+// console.log( t2.out(its.abbrevFlag) );
+
   return text;
 };
 
@@ -180,8 +190,35 @@ exports.highlightWordiness = (text) => {
  * @returns {string} a String marking all the uncapitalized first words.
  */
 exports.highlightUseOfOxymorons = (text) => {
-  // -- Yet to be completed...
-  return text;
+  const patterns = [
+  { name: 'adverb_sent', patterns: [ '[act] [natural]',
+    '[action] [plan]',
+    '[additional] [reduction]',
+    '[adult] [children]',
+    '[all] [alone]',
+    '[almost] [exactly]',
+    '[Alone] [together]',
+    '[altogether] [separate]',
+    '[another] [one]',
+    '[anxious] [patient]',
+    '[apparently] [invisible]',
+    '[assistant] [principal]',
+    '[assisted] [suicide]',
+    '[athletic] [scholarship]',
+    '[Audience] [viewing]',
+    '[awfully] [good]',
+    '[baby] [grand]',
+    '[bad] [goods]',
+    '[backdoor] [front]' ] }];
+
+  nlp.learnCustomEntities( patterns );
+  const doc = nlp.readDoc( text );
+
+const adverbsentence = doc.customEntities()
+ .each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');
+} );
+
+  return doc.out(its.markedUpText);
 };
 
 

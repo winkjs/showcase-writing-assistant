@@ -15,6 +15,7 @@ const applyHighlights = (text) => {
   text = grammar.checkIncorrectPunctuationSpacing(text);
   text = grammar.checkFirstWordOfSentence(text);
   text = grammar.checkUseOfAdverbs(text);
+  text = grammar.highlightUseOfOxymorons(text);
   return text;
 };
 

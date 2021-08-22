@@ -3,3 +3,4 @@ node_modules/
 
 # Files will be ignored here
 bundle.js
+.prettierignore

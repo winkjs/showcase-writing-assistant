@@ -90,11 +90,11 @@ button {
 }
 
 .perspective .backdrop {
-  transform: perspective(1500px) translateX(-125px) rotateY(20deg) scale(0.9);
+  transform: perspective(1500px) translateX(-75px) rotateY(10deg) scale(0.9);
 }
 
 .perspective textarea {
-  transform: perspective(1500px) translateX(155px) rotateY(20deg) scale(1.1);
+  transform: perspective(1500px) translateX(105px) rotateY(10deg) scale(1.1);
 }
 
 textarea:focus,

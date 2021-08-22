@@ -12,7 +12,7 @@ nlp.learnCustomEntities(patterns);
 
 
 module.exports = (text) => {
-  logs= [];
+  logs = [];
   doc = nlp.readDoc(text);
 };
 
@@ -20,18 +20,21 @@ module.exports.getTextAndLog = () => {
   return [doc.out(its.markedUpText), logs];
 };
 
-/**
+/** Works fine - no need to make any changes.
  * @description Check for incorrect contractions.
  */
 module.exports.checkIncorrectContractions = (text) => {
-  const filteredTokens = doc.tokens().filter((token) => token.out(its.contractionFlag) === true)
+  const filteredTokens = doc.tokens().filter((token) => token.out(its.type) !== 'tabCRLF')
+    .filter((token) => token.out(its.contractionFlag) === true)
     .filter((token, index) => (index % 2 !== 0) && !(token.out(its.value).includes('\'')));
-  filteredTokens.each((t) => t.markup('<mark style="background-color: #FF4848">', '</mark>'));
+  filteredTokens.each((token, index) => token.markup('<mark style="background-color: #FF4848">', '</mark>'));
   if (filteredTokens.out().length > 0) logs.push(filteredTokens.out().length + " contractions are incorrect!");
 };
 
 
-/**
+/** Works fine - condition is limited to checking the following properties -
+ * 1) Should be a punctuation 
+ * 2) Should be comma - for now at least (could also be a semi-colon or a colon but we're not looking into that)
  * @description Check for incorrect usage of punctuation spacing.
  */
 module.exports.checkIncorrectPunctuationSpacing = () => {
@@ -47,20 +50,22 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
  * @description Check if the first word of sentence is capital or not.
  */
 module.exports.checkFirstWordOfSentence = () => {
-  const tokens = doc.tokens();
-  const firstWord = tokens.filter( (token, index) => ( ( index === 0 || ( index >= 1 && tokens.itemAt(index - 1).out() === '.' ) ) && token.out(its.case) !== 'titleCase' && token.out(its.case) !== 'upperCase' ) );
+  const tokensWithoutWhiteSpaces = doc.tokens().filter((token) => token.out(its.type) !== 'tabCRLF');
+  const firstWord = tokensWithoutWhiteSpaces
+    .filter((token, index) => index === 0 || (index >= 1 && tokensWithoutWhiteSpaces.itemAt(index - 1).out() === '.'))
+    .filter((token) => token.out(its.case) !== 'titleCase');
   firstWord.each((token) => token.markup('<mark style="background-color: #B5FFD9">', '</mark>'));
   if (firstWord.out().length > 0) logs.push(firstWord.out().length + " first words in sentences have incorrect casing!");
 };
 
 
-/**
+/** !Warning: NOT WORKING PROPERLY !! There is some problem when highlighting the sentence - probably because the tags aren't closing.
  * @description Check use of adverbs.
  */
 module.exports.checkUseOfAdverbs = () => {
-  const adverbSentence = doc.customEntities()
-    .filter((sentence) => sentence.out(its.type) === 'adverbSentences');
-  adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
+  const adverbSentence = doc.customEntities().filter((sentence) => sentence.out(its.type) === 'adverbSentences');
+  // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
+  adverbSentence.each((token) => token.markup('<mark style="background-color: #F6D167">', '</mark>'))
 };
 
 
@@ -69,23 +74,30 @@ module.exports.checkUseOfAdverbs = () => {
  */
 module.exports.checkUseOfPassiveVoice = () => {
   const tokens = doc.tokens();
-  const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma))  );
+  const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
+};
+
+
+/**
+ * @description Check use of long sentences.
+ * @param {string} text Input text (may or may not contain markings).
+ * @returns {string} a String marking all the uncapitalized first words.
+ */
+module.exports.checkUseOfLongSentence = () => {
+  const sentences = doc.sentences();
+  sentences.each((sentence) => {
+    let wordCount = sentence.tokens().filter((token) => token.out(its.type) === 'word').out().length;
+    if (wordCount >= 15 && wordCount < 21) {
+      sentence.markup('<mark class="checkUseOfLongSentence-Long" style="background-color: #F6B8B8">', '</mark>');
+    } else if (wordCount >= 21) {
+      sentence.markup('<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #AC66CC">', '</mark>');
+    }
+  });
 };
 
 /**
  *  Don't use any functions below. They do not work as of now.
  */
-
-// /**
-//  * @description Check use of long sentences.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.checkUseOfLongSentence = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
-
 
 // /**
 //  * @description Check for duplicate words.

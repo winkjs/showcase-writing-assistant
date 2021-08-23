@@ -19,6 +19,7 @@ const applyHighlights = (text) => {
   grammar.checkFirstWordOfSentence();
   grammar.checkUseOfAdverbs();
   grammar.highlightUseOfOxymorons();
+  grammar.avoidAbusiveWords();
   // grammar.checkUseOfPassiceVoice();
   grammar.checkUseOfLongSentence();
   return grammar.getTextAndLog();

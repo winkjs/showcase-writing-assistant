@@ -3,7 +3,7 @@ const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
 const its = nlp.its;
 const as = nlp.as;
-var oxymorons = require('./oxymoronlist');
+// var oxymorons = require('./oxymoronlist');
 
 
 var doc, logs;
@@ -21,7 +21,41 @@ const patterns = [
     '[anxious] [patient]',
     '[apparently] [invisible]',
     '[assistant] [principal]',
-    '[assisted] [suicide]']}
+    '[assisted] [suicide]']},
+
+  { name: 'abusiveWords', patterns: [
+'[anus]',
+'[anal]',
+'[ballsack]',
+'[blowjob]',
+'[blow] [job]',
+'[boner]',
+'[clitoris]',
+'[cock]',
+'[cunt]',
+'[dick]',
+'[dildo]',
+'[dyke]',
+'[fag]',
+'[fuck]',
+'[jizz]',
+'[labia]',
+'[muff]',
+'[nigger]',
+'[nigga]',
+'[penis]',
+'[piss]',
+'[pussy]',
+'[scrotum]',
+'[sex]',
+'[shit]',
+'[slut]',
+'[smegma]',
+'[spunk]',
+'[twat]',
+'[vagina]',
+'[wank]',
+'[whore]'] }
 
 ];
 nlp.learnCustomEntities(patterns);
@@ -132,15 +166,15 @@ module.exports.checkUseOfLongSentence = () => {
 //  */
 
 
-// /**
-//  * @description Check for abusive words.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.avoidAbusiveWords = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Check for abusive words.
+ * @param {string} text Input text (may or may not contain markings).
+ * @returns {string} a String marking all the uncapitalized first words.
+ */
+module.exports.avoidAbusiveWords = () => {
+  const abusiveWords = doc.customEntities().filter((e) => e.out(its.type) === 'abusiveWords').each( ( e ) => {e.markup('<mark style="background-color: #961216">', '</mark>');});
+
+};
 
 
 // /**
@@ -205,8 +239,9 @@ module.exports.checkUseOfLongSentence = () => {
  * @returns {string} a String marking all the uncapitalized first words.
  */
 module.exports.highlightUseOfOxymorons = () => {
-const oxymorons = doc.customEntities().each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');});
-  // adverbSentence.each((token) => token.markup('<mark style="background-color: #555555">', '</mark>'))
+
+  const oxymorons = doc.customEntities().filter((e) => e.out(its.type) === 'oxymoron').each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');});
+
 };
 
 

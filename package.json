@@ -9,7 +9,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "browserify": "^17.0.0",
     "wink-eng-lite-web-model": "^1.2.1",
     "wink-nlp": "^1.7.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0"
   }
 }

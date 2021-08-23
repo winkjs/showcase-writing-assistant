@@ -3,10 +3,26 @@ const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
 const its = nlp.its;
 const as = nlp.as;
+var oxymorons = require('./oxymoronlist');
+
 
 var doc, logs;
 const patterns = [
-  { name: 'adverbSentences', patterns: ['[ADV]'] }
+  { name: 'adverbSentences', patterns: ['[ADV]'] },
+  { name: 'oxymoron', patterns: ['[act] [natural]',
+    '[action] [plan]',
+    '[additional] [reduction]',
+    '[adult] [children]',
+    '[all] [alone]',
+    '[almost] [exactly]',
+    '[Alone] [together]',
+    '[altogether] [separate]',
+    '[another] [one]',
+    '[anxious] [patient]',
+    '[apparently] [invisible]',
+    '[assistant] [principal]',
+    '[assisted] [suicide]']}
+
 ];
 nlp.learnCustomEntities(patterns);
 
@@ -183,15 +199,15 @@ module.exports.checkUseOfLongSentence = () => {
 // };
 
 
-// /**
-//  * @description A function that highlights the use of oxymoron.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.highlightUseOfOxymorons = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description A function that highlights the use of oxymoron.
+ * @param {string} text Input text (may or may not contain markings).
+ * @returns {string} a String marking all the uncapitalized first words.
+ */
+module.exports.highlightUseOfOxymorons = () => {
+const oxymorons = doc.customEntities().each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');});
+  // adverbSentence.each((token) => token.markup('<mark style="background-color: #555555">', '</mark>'))
+};
 
 
 // /**

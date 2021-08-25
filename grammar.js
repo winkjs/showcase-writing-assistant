@@ -1,3 +1,5 @@
+import oxymoronList from './oxymoronList.js'
+import absusiveWords from './absuiveList.js';
 const winkNLP = require('wink-nlp');
 const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
@@ -6,69 +8,19 @@ const as = nlp.as;
 // var oxymorons = require('./oxymoronlist');
 
 
-var doc, logs, textIsEmpty;
+var doc, logs;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
-  {
-    name: 'oxymoron', patterns: ['[act] [natural]',
-      '[action] [plan]',
-      '[additional] [reduction]',
-      '[adult] [children]',
-      '[all] [alone]',
-      '[almost] [exactly]',
-      '[Alone] [together]',
-      '[altogether] [separate]',
-      '[another] [one]',
-      '[anxious] [patient]',
-      '[apparently] [invisible]',
-      '[assistant] [principal]',
-      '[assisted] [suicide]']
-  },
+  { name: 'oxymoron', patterns:oxymoronList() },
+  { name: 'abusiveWords', patterns: absusiveWords()}]
 
-  {
-    name: 'abusiveWords', patterns: [
-      '[anus]',
-      '[anal]',
-      '[ballsack]',
-      '[blowjob]',
-      '[blow] [job]',
-      '[boner]',
-      '[clitoris]',
-      '[cock]',
-      '[cunt]',
-      '[dick]',
-      '[dildo]',
-      '[dyke]',
-      '[fag]',
-      '[fuck]',
-      '[jizz]',
-      '[labia]',
-      '[muff]',
-      '[nigger]',
-      '[nigga]',
-      '[penis]',
-      '[piss]',
-      '[pussy]',
-      '[scrotum]',
-      '[sex]',
-      '[shit]',
-      '[slut]',
-      '[smegma]',
-      '[spunk]',
-      '[twat]',
-      '[vagina]',
-      '[wank]',
-      '[whore]']
-  }
-
-];
 nlp.learnCustomEntities(patterns);
-
 
 module.exports = (text) => {
   logs = [];
-  textIsEmpty = text === '' ? true : false;
   doc = nlp.readDoc(text);
+  textIsEmpty = text === '' ? true : false;
+  
 };
 
 module.exports.getTextAndLog = () => {

@@ -6,56 +6,60 @@ const as = nlp.as;
 // var oxymorons = require('./oxymoronlist');
 
 
-var doc, logs;
+var doc, logs, textIsEmpty;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
-  { name: 'oxymoron', patterns: ['[act] [natural]',
-    '[action] [plan]',
-    '[additional] [reduction]',
-    '[adult] [children]',
-    '[all] [alone]',
-    '[almost] [exactly]',
-    '[Alone] [together]',
-    '[altogether] [separate]',
-    '[another] [one]',
-    '[anxious] [patient]',
-    '[apparently] [invisible]',
-    '[assistant] [principal]',
-    '[assisted] [suicide]']},
+  {
+    name: 'oxymoron', patterns: ['[act] [natural]',
+      '[action] [plan]',
+      '[additional] [reduction]',
+      '[adult] [children]',
+      '[all] [alone]',
+      '[almost] [exactly]',
+      '[Alone] [together]',
+      '[altogether] [separate]',
+      '[another] [one]',
+      '[anxious] [patient]',
+      '[apparently] [invisible]',
+      '[assistant] [principal]',
+      '[assisted] [suicide]']
+  },
 
-  { name: 'abusiveWords', patterns: [
-'[anus]',
-'[anal]',
-'[ballsack]',
-'[blowjob]',
-'[blow] [job]',
-'[boner]',
-'[clitoris]',
-'[cock]',
-'[cunt]',
-'[dick]',
-'[dildo]',
-'[dyke]',
-'[fag]',
-'[fuck]',
-'[jizz]',
-'[labia]',
-'[muff]',
-'[nigger]',
-'[nigga]',
-'[penis]',
-'[piss]',
-'[pussy]',
-'[scrotum]',
-'[sex]',
-'[shit]',
-'[slut]',
-'[smegma]',
-'[spunk]',
-'[twat]',
-'[vagina]',
-'[wank]',
-'[whore]'] }
+  {
+    name: 'abusiveWords', patterns: [
+      '[anus]',
+      '[anal]',
+      '[ballsack]',
+      '[blowjob]',
+      '[blow] [job]',
+      '[boner]',
+      '[clitoris]',
+      '[cock]',
+      '[cunt]',
+      '[dick]',
+      '[dildo]',
+      '[dyke]',
+      '[fag]',
+      '[fuck]',
+      '[jizz]',
+      '[labia]',
+      '[muff]',
+      '[nigger]',
+      '[nigga]',
+      '[penis]',
+      '[piss]',
+      '[pussy]',
+      '[scrotum]',
+      '[sex]',
+      '[shit]',
+      '[slut]',
+      '[smegma]',
+      '[spunk]',
+      '[twat]',
+      '[vagina]',
+      '[wank]',
+      '[whore]']
+  }
 
 ];
 nlp.learnCustomEntities(patterns);
@@ -63,6 +67,7 @@ nlp.learnCustomEntities(patterns);
 
 module.exports = (text) => {
   logs = [];
+  textIsEmpty = text === '' ? true : false;
   doc = nlp.readDoc(text);
 };
 
@@ -96,20 +101,21 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
 };
 
 
-/** !Warning: Need to be reviewed before confirming to this function. There are some false-positives like 'I'.
+/**
  * @description Check if the first word of sentence is capital or not.
  */
 module.exports.checkFirstWordOfSentence = () => {
-  const tokensWithoutWhiteSpaces = doc.tokens().filter((token) => token.out(its.type) !== 'tabCRLF');
-  const firstWord = tokensWithoutWhiteSpaces
-    .filter((token, index) => index === 0 || (index >= 1 && tokensWithoutWhiteSpaces.itemAt(index - 1).out() === '.'))
-    .filter((token) => token.out(its.case) !== 'titleCase');
-  firstWord.each((token) => token.markup('<mark style="background-color: #B5FFD9">', '</mark>'));
-  if (firstWord.out().length > 0) logs.push(firstWord.out().length + " first words in sentences have incorrect casing!");
+  if (!textIsEmpty) {
+    doc.sentences().each((sentence) => {
+      var firstWord = sentence.tokens().itemAt(0);
+      if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length < 1))
+        firstWord.markup('<mark style="background-color: #F037A5">', '</mark>');
+    });
+  }
 };
 
 
-/** !Warning: NOT WORKING PROPERLY !! There is some problem when highlighting the sentence - probably because the tags aren't closing.
+/** 
  * @description Check use of adverbs.
  */
 module.exports.checkUseOfAdverbs = () => {
@@ -119,61 +125,45 @@ module.exports.checkUseOfAdverbs = () => {
 };
 
 
-/** !Warning: Work in progress - DO NOT USE.
- * @description Check use of passive voice.
- */
-module.exports.checkUseOfPassiveVoice = () => {
-  const tokens = doc.tokens();
-  const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
-};
+// /** !Warning: Work in progress - DO NOT USE.
+//  * @description Check use of passive voice.
+//  */
+// module.exports.checkUseOfPassiveVoice = () => {
+//   const tokens = doc.tokens();
+//   const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
+// };
 
 
 /**
- * @description Check use of long sentences.
- * @param {string} text Input text (may or may not contain markings).
- * @returns {string} a String marking all the uncapitalized first words.
+ * @description Marks long and very long sentences.
  */
 module.exports.checkUseOfLongSentence = () => {
   const sentences = doc.sentences();
   sentences.each((sentence) => {
     let wordCount = sentence.tokens().filter((token) => token.out(its.type) === 'word').out().length;
     if (wordCount >= 15 && wordCount < 21) {
-      sentence.markup('<mark class="checkUseOfLongSentence-Long" style="background-color: #F6B8B8">', '</mark>');
+      sentence.markup('<mark class="checkUseOfLongSentence-Long" style="background-color: #D4F3EF">', '</mark>');
     } else if (wordCount >= 21) {
-      sentence.markup('<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #AC66CC">', '</mark>');
+      sentence.markup('<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #C2F784">', '</mark>');
     }
   });
 };
 
+
 /**
- *  Don't use any functions below. They do not work as of now.
+ * @description Check for duplicate words.
  */
-
-// /**
-//  * @description Check for duplicate words.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.checkDuplicateWords = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
-
-
-// /**
-//  * Rules after #8 has been defined below
-//  * They have yet to be completed.
-//  */
-
+module.exports.checkDuplicateWords = () => {
+};
 
 /**
  * @description Check for abusive words.
- * @param {string} text Input text (may or may not contain markings).
- * @returns {string} a String marking all the uncapitalized first words.
  */
 module.exports.avoidAbusiveWords = () => {
-  const abusiveWords = doc.customEntities().filter((e) => e.out(its.type) === 'abusiveWords').each( ( e ) => {e.markup('<mark style="background-color: #961216">', '</mark>');});
-
+  doc.customEntities().filter((entity) => entity.out(its.type) === 'abusiveWords')
+    .each((entity) => {
+      entity.markup('<mark style="background-color: #961216">', '</mark>');
+    });
 };
 
 
@@ -189,15 +179,13 @@ module.exports.avoidAbusiveWords = () => {
 // };
 
 
-// /**
-//  * @description Always use consistent quotes and apostrophe (curly vs straight quotes).
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.useConsistentQuotesAndApostrophe = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Always use consistent quotes and apostrophe (curly vs straight quotes).
+ */
+exports.useConsistentQuotesAndApostrophe = (text) => {
+  // -- Yet to be completed...
+  return text;
+};
 
 
 // /**
@@ -224,7 +212,7 @@ module.exports.avoidAbusiveWords = () => {
 
 // /**
 //  * @description Highlights wordiness (includes redundant acronym syndrome).
-//  * @param {string} text Input text (may or may not contain markings).
+//  * @param {string} text Input text (may or may not contain markings).s
 //  * @returns {string} a String marking all the uncapitalized first words.
 //  */
 // exports.highlightWordiness = (text) => {
@@ -235,22 +223,25 @@ module.exports.avoidAbusiveWords = () => {
 
 /**
  * @description A function that highlights the use of oxymoron.
- * @param {string} text Input text (may or may not contain markings).
- * @returns {string} a String marking all the uncapitalized first words.
  */
 module.exports.highlightUseOfOxymorons = () => {
-
-  const oxymorons = doc.customEntities().filter((e) => e.out(its.type) === 'oxymoron').each( ( e ) => {e.markup('<mark style="background-color: #FFF542">', '</mark>');});
-
+  const oxymorons = doc.customEntities()
+    .filter((e) => e.out(its.type) === 'oxymoron')
+    .each((entity) => {
+      entity.markup('<mark style="background-color: #FFF542">', '</mark>');
+    });
 };
 
 
-// /**
-//  * @description A function that warns the user for starting with a conjunction.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.avoidStartingWithConjunctions = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description A function that warns the user for starting with a conjunction
+ */
+module.exports.avoidStartingWithConjunctions = () => {
+  if (!textIsEmpty) {
+    doc.sentences().each((sentence) => {
+      var firstWord = sentence.tokens().itemAt(0);
+      if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ')
+        firstWord.markup('<mark style="background-color: #FFF5AB">', '</mark>');
+    });
+  }
+};

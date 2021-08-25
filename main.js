@@ -21,7 +21,9 @@ const applyHighlights = (text) => {
   grammar.highlightUseOfOxymorons();
   grammar.avoidAbusiveWords();
   // grammar.checkUseOfPassiceVoice();
+  // grammar.checkDuplicateWords();
   grammar.checkUseOfLongSentence();
+  grammar.avoidStartingWithConjunctions();
   return grammar.getTextAndLog();
 };
 

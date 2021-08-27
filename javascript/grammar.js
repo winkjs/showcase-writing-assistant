@@ -5,10 +5,9 @@ const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
 const its = nlp.its;
 const as = nlp.as;
-// var oxymorons = require('./oxymoronlist');
 
 
-var doc, logs;
+var doc, logs, textIsEmpty;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
   { name: 'oxymoron', patterns:oxymoronList() },

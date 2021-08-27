@@ -1,5 +1,6 @@
 import oxymoronList from './oxymoronList.js'
 import absusiveWords from './absuiveList.js';
+import wordinessPhrases from './wordnessList.js';
 const winkNLP = require('wink-nlp');
 const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
@@ -11,7 +12,9 @@ var doc, logs, textIsEmpty;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
   { name: 'oxymoron', patterns:oxymoronList() },
-  { name: 'abusiveWords', patterns: absusiveWords()}]
+  { name: 'abusiveWords', patterns: absusiveWords()},
+  { name: 'wordinessPhrases', patterns: wordinessPhrases()}
+]
 
 nlp.learnCustomEntities(patterns);
 
@@ -161,15 +164,15 @@ exports.useConsistentQuotesAndApostrophe = (text) => {
 // };
 
 
-// /**
-//  * @description Highlights wordiness (includes redundant acronym syndrome).
-//  * @param {string} text Input text (may or may not contain markings).s
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.highlightWordiness = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Highlights wordiness (includes redundant acronym syndrome).
+ */
+module.exports.highlightWordiness = (text) => {
+  doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases')
+  .each((entity) => {
+    entity.markup('<mark style="background-color: #961216">', '</mark>');
+  });
+};
 
 
 /**

@@ -14,16 +14,17 @@ var $toggle = $('button');
  */
 const applyHighlights = (text) => {
   grammar(text);
-  grammar.checkIncorrectContractions();
-  grammar.checkIncorrectPunctuationSpacing();
-  grammar.checkFirstWordOfSentence();
-  grammar.checkUseOfAdverbs();
-  grammar.highlightUseOfOxymorons();
-  grammar.avoidAbusiveWords();
+  // grammar.checkIncorrectContractions();
+  // grammar.checkIncorrectPunctuationSpacing();
+  // grammar.checkFirstWordOfSentence();
+  // grammar.checkUseOfAdverbs();
+  // grammar.highlightUseOfOxymorons();
+  // grammar.avoidAbusiveWords();
   // grammar.checkUseOfPassiceVoice();
   // grammar.checkDuplicateWords();
-  grammar.checkUseOfLongSentence();
-  grammar.avoidStartingWithConjunctions();
+  // grammar.checkUseOfLongSentence();
+  // grammar.avoidStartingWithConjunctions();
+  grammar.highlightWordiness();
   return grammar.getTextAndLog();
 };
 

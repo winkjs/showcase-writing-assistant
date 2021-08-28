@@ -23,7 +23,7 @@
 5. Use of passive voice — [am/are/were/being/is/been/was/be] followed by a past tense verb
     - Approach 1 : auxillarry verbs -> !lemma and !ing if same ing rule -> ignore universal present continous tense
 
-6. Long sentence >15 words; very long sentence >21 words — refer to for further refinement https://techcomm.nz/Story?Action=View&Story_id=106
+6. ✅ Long sentence >15 words; very long sentence >21 words — refer to for further refinement https://techcomm.nz/Story?Action=View&Story_id=106
     - Approach 1 : We can create a function Sentence word counter. This will reset as the period PUNC is encountered.
     - Approach 2 : Leverage its.readabilityStats - can also show error if complex word is used or score gets poorer
 
@@ -31,7 +31,7 @@
     - Approach 1 : tokenize and check. bit this will be slow
     - Approach 2 :
 
-8.  Do not use abusive words
+8. ✅ Do not use abusive words
 
     - Approach 1 : Content-Based Method:
         
@@ -42,7 +42,7 @@
 
     - Approach 2 : Graph-Based Method -:
 
-9.  Consistent spelling — either british or american
+9. Consistent spelling — either british or american
     - Approach 1: We can ask the user to choose en-US or en-GB as we decided todo in the use case. Similarly we can provide a select option in the showcase.Because many other language support will be added further
     - Approach 2: We can compare few words to a predefined list and set the state as EN/GB of the whole document. The state will govern the rules further on.
 
@@ -55,10 +55,10 @@
 12. The word "yes" should always follow a "," or "."
     - Approach 1: Check for injections are followed by a punctuation mark [INTJ PUNC]
 
-13. Wordiness — refer to https://www.thoughtco.com/common-redundancies-in-english-1692776 It includes redundant acronym syndrome (RAS) — ATM machine, ABS brakes, HIV virus, PIN number, LCD display, UPC code, please RSVP etc. Refer to http://www.nanday.com/rap/
+13. ✅ Wordiness — refer to https://www.thoughtco.com/common-redundancies-in-english-1692776 It includes redundant acronym syndrome (RAS) — ATM machine, ABS brakes, HIV virus, PIN number, LCD display, UPC code, please RSVP etc. Refer to http://www.nanday.com/rap/
     - Approach 1 : We can check from the predefined list of words
 
-14. Highlight use of oxymorons — refer to http://www.fun-with-words.com/oxym_example.html
+14. ✅ Highlight use of oxymorons — refer to http://www.fun-with-words.com/oxym_example.html
 
     Oxymorons - Oxymoron is a literary figure of speech in which opposite orcontradictory words, terms, phrases or ideas are combined to create arhetorical effect by paradoxical means. For example, despairing hope, tendercruelty, glad mourning and sad joy etc.
 
@@ -76,5 +76,5 @@
     We can use word embedings and compare the values of the vectors.
     https://www.slideshare.net/WonIkCho/warnikchow-detecting-oxymoronococosda
 
-15. Avoid starting sentence with words "So","Just","There".
+15. ✅ Avoid starting sentence with words "So","Just","There".
     - Approach 1 : predefined list?? need something better

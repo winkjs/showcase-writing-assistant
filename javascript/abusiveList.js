@@ -1,5 +1,4 @@
-export default function absusiveWords() {
-
+export default function abusiveWords() {
     return ([
         '[anus]',
         '[anal]',

@@ -1,5 +1,5 @@
 import oxymoronList from './oxymoronList.js'
-import absusiveWords from './absuiveList.js';
+import abusiveWords from './abusiveList.js';
 import wordinessPhrases from './wordnessList.js';
 const winkNLP = require('wink-nlp');
 const model = require('wink-eng-lite-web-model');
@@ -12,7 +12,7 @@ var doc, logs;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
   { name: 'oxymoron', patterns: oxymoronList() },
-  { name: 'abusiveWords', patterns: absusiveWords() },
+  { name: 'abusiveWords', patterns: abusiveWords() },
   { name: 'wordinessPhrases', patterns: wordinessPhrases() }
 ]
 
@@ -30,7 +30,7 @@ module.exports.getTextAndLog = () => {
 /** Works fine - no need to make any changes.
  * @description Check for incorrect contractions.
  */
-module.exports.checkIncorrectContractions = (text) => {
+module.exports.checkIncorrectContractions = () => {
   const filteredTokens = doc.tokens().filter((token) => token.out(its.type) !== 'tabCRLF')
     .filter((token) => token.out(its.contractionFlag) === true)
     .filter((token, index) => (index % 2 !== 0) && !(token.out(its.value).includes('\'')));
@@ -48,7 +48,7 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
   const filteredTokens = doc.tokens()
     .filter((token) => token.out(its.pos) === 'PUNCT' && token.out(its.value) === ',')
     .filter((token) => !(token.out(its.precedingSpaces) === ""));
-  filteredTokens.each((token) => token.markup('<mark style="background-color: #B980F0">', '</mark>'));
+  filteredTokens.each((token) => token.markup('<mark class="checkIncorrectPunctuationSpacing" style="background-color: #B980F0">', '</mark>'));
   if (filteredTokens.out().length > 0) logs.push(filteredTokens.out().length + " punctuations are incorrect!");
 };
 
@@ -60,8 +60,9 @@ module.exports.checkFirstWordOfSentence = () => {
   if (doc.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
     doc.sentences().each((sentence) => {
       var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
+      // console.log(firstWord.out(its.value));
       if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length < 1))
-        firstWord.markup('<mark style="background-color: #F037A5">', '</mark>');
+        firstWord.markup('<mark class="checkFirstWordOfSentence" style="background-color: #F037A5">', '</mark>');
     });
   }
 };
@@ -76,17 +77,17 @@ module.exports.checkUseOfAdverbs = () => {
   const adverbSentence = doc.customEntities().filter((sentence) => sentence.out(its.type) === 'adverbSentences');
   // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
   // This is when you want to mark the whole sentence, instead of individual adverbs
-  adverbSentence.each((token) => token.markup('<mark style="background-color: #F6D167">', '</mark>'))
+  adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs" style="background-color: #F6D167">', '</mark>'))
 };
 
 
-// /** !Warning: Work in progress - DO NOT USE.
-//  * @description Check use of passive voice.
-//  */
-// module.exports.checkUseOfPassiveVoice = () => {
-//   const tokens = doc.tokens();
-//   const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
-// };
+/** !Warning: Work in progress - DO NOT USE.
+ * @description Check use of passive voice.
+ */
+module.exports.checkUseOfPassiveVoice = () => {
+  // const tokens = doc.tokens();
+  // const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
+};
 
 
 /**
@@ -109,6 +110,7 @@ module.exports.checkUseOfLongSentence = () => {
  * @description Check for duplicate words.
  */
 module.exports.checkDuplicateWords = () => {
+
 };
 
 /**
@@ -117,61 +119,55 @@ module.exports.checkDuplicateWords = () => {
 module.exports.avoidAbusiveWords = () => {
   doc.customEntities().filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
-      entity.markup('<mark style="background-color: #961216">', '</mark>');
+      entity.markup('<mark class="avoidAbusiveWords" style="background-color: #961216">', '</mark>');
     });
 };
 
 
-// /**
-//  * @description Use consistent spellings - either British or American.
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @param {boolean} type set "TRUE" for British, "FALSE" for American English
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.useConsistentSpellings = (text, type) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Use consistent spellings - either British or American.
+ */
+exports.useConsistentSpellings = () => {
+  // -- Yet to be completed...
+};
 
 
 /**
  * @description Always use consistent quotes and apostrophe (curly vs straight quotes).
  */
-exports.useConsistentQuotesAndApostrophe = (text) => {
-  // -- Yet to be completed...
-  return text;
+module.exports.useConsistentQuotesAndApostrophe = () => {
+  // doc.tokens().each( (token) => {
+  //   if (token.out(its.type) !== 'word' ) {
+  //     console.log(token.out());
+  //   }
+  // })
 };
 
 
-// /**
-//  * @description Avoid use of "am" and "pm" when sentences defines the time of the day(i.e. morning, evening, night, etc).
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.avoidConstructs = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Avoid use of "am" and "pm" when sentences defines the time of the 
+ * day(i.e. morning, evening, night, etc).
+ */
+exports.avoidConstructs = () => {
+  // -- Yet to be completed...
+};
 
-// /**
-//  * @description Highlights interjections without comma 
-//  * (Warning: might also use em-dash, which we are not checking for).
-//  * @param {string} text Input text (may or may not contain markings).
-//  * @returns {string} a String marking all the uncapitalized first words.
-//  */
-// exports.highlightInterjectionsWithoutComma = (text) => {
-//   // -- Yet to be completed...
-//   return text;
-// };
+/**
+ * @description Highlights interjections without comma 
+ * (Note: might also use em-dash, which we are not checking for).
+ */
+exports.highlightInterjectionsWithoutComma = () => {
+  // doc.
+};
 
 
 /**
  * @description Highlights wordiness (includes redundant acronym syndrome).
  */
-module.exports.highlightWordiness = (text) => {
+module.exports.highlightWordiness = () => {
   doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases')
     .each((entity) => {
-      entity.markup('<mark style="background-color: #961216">', '</mark>');
+      entity.markup('<mark class="highlightWordiness" style="background-color: #961216">', '</mark>');
     });
 };
 
@@ -183,7 +179,7 @@ module.exports.highlightUseOfOxymorons = () => {
   const oxymorons = doc.customEntities()
     .filter((e) => e.out(its.type) === 'oxymoron')
     .each((entity) => {
-      entity.markup('<mark style="background-color: #FFF542">', '</mark>');
+      entity.markup('<mark class="highlightUseOfOxymorons" style="background-color: #FFF542">', '</mark>');
     });
 };
 
@@ -198,7 +194,7 @@ module.exports.avoidStartingWithConjunctions = () => {
         var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
         // console.log(firstWord.out());
         if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {
-          firstWord.markup('<mark style="background-color: #FFF5AB">', '</mark>');
+          firstWord.markup('<mark class="avoidStartingWithConjunctions" style="background-color: #FFF5AB">', '</mark>');
         }
       }
     });

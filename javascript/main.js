@@ -4,6 +4,7 @@ var $backdrop = $('.backdrop');
 var $highlights = $('.highlights');
 var $textarea = $('textarea');
 var $toggle = $('button');
+var $dropdown = $('.language');
 
 /**
  * @description Applies all the required highlights layer-by-layer.
@@ -15,19 +16,32 @@ var $toggle = $('button');
 const applyHighlights = (text) => {
   grammar(text);
 
+  /**
+   * @author Ashvith
+   * So the one thing that I've noticed that that the order in which
+   * functions need to be executed is dependent. First, we must execute
+   * all customEntities()-based methods, and then the default collections
+   * like sentences(), tokens() or entities().
+   */
+
+// -- functions that highlight the mistakes in symbols
+grammar.useConsistentQuotesAndApostrophe();
+
+  // -- customEntities()-based functions.
   grammar.checkUseOfAdverbs();
   grammar.highlightUseOfOxymorons();
+  grammar.highlightWordiness();
   grammar.avoidAbusiveWords();
   // grammar.checkUseOfPassiceVoice();
   // grammar.checkDuplicateWords();
 
+  // -- functions that use normal collections.
   grammar.checkIncorrectContractions();
   grammar.checkIncorrectPunctuationSpacing();
   grammar.checkFirstWordOfSentence();
-
   grammar.checkUseOfLongSentence();
   grammar.avoidStartingWithConjunctions();
-  grammar.highlightWordiness();
+
   return grammar.getTextAndLog();
 };
 
@@ -35,7 +49,9 @@ const applyHighlights = (text) => {
  * @description A simple function that handles the input.
  */
 const handleInput = () => {
+  console.log(language);
   var text = $textarea.val();
+  var language = $dropdown.val();
   var [highlightedText, log] = applyHighlights(text);
   $highlights.html(highlightedText);
 };
@@ -61,6 +77,10 @@ const bindEvents = () => {
 
   $toggle.on('click', function () {
     $container.toggleClass('perspective');
+  });
+  // console.log($dropdown.val());
+  $dropdown.on({
+    change: handleInput,
   });
 };
 

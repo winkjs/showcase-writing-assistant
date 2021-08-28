@@ -13,7 +13,8 @@ const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
   { name: 'oxymoron', patterns: oxymoronList() },
   { name: 'abusiveWords', patterns: abusiveWords() },
-  { name: 'wordinessPhrases', patterns: wordinessPhrases() }
+  { name: 'wordinessPhrases', patterns: wordinessPhrases() },
+  { name: 'curlyApostrophes', patterns: ['[‘|’]'] }
 ]
 
 nlp.learnCustomEntities(patterns);
@@ -119,7 +120,7 @@ module.exports.checkDuplicateWords = () => {
 module.exports.avoidAbusiveWords = () => {
   doc.customEntities().filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
-      entity.markup('<mark class="avoidAbusiveWords" style="background-color: #961216">', '</mark>');
+      entity.markup('<mark class="avoidAbusiveWords" style="background-color: #81B214">', '</mark>');
     });
 };
 
@@ -128,19 +129,15 @@ module.exports.avoidAbusiveWords = () => {
  * @description Use consistent spellings - either British or American.
  */
 exports.useConsistentSpellings = () => {
-  // -- Yet to be completed...
 };
 
 
 /**
- * @description Always use consistent quotes and apostrophe (curly vs straight quotes).
+ * @description Always use consistent apostrophe (curly vs straight). No need to check for quotes.
  */
-module.exports.useConsistentQuotesAndApostrophe = () => {
-  // doc.tokens().each( (token) => {
-  //   if (token.out(its.type) !== 'word' ) {
-  //     console.log(token.out());
-  //   }
-  // })
+module.exports.useConsistentApostrophe = () => {
+  doc.customEntities().filter( (entity) => entity.out(its.type) === 'curlyApostrophes')
+    .each( (symbol) => symbol.markup('<mark class="useConsistentApostrophe" style="background-color: #A0937D">', '</mark>') );
 };
 
 
@@ -149,11 +146,11 @@ module.exports.useConsistentQuotesAndApostrophe = () => {
  * day(i.e. morning, evening, night, etc).
  */
 exports.avoidConstructs = () => {
-  // -- Yet to be completed...
+  // console.out(doc.out());
 };
 
 /**
- * @description Highlights interjections without comma 
+ * @description Highlights interjections without punctuations 
  * (Note: might also use em-dash, which we are not checking for).
  */
 exports.highlightInterjectionsWithoutComma = () => {
@@ -167,7 +164,7 @@ exports.highlightInterjectionsWithoutComma = () => {
 module.exports.highlightWordiness = () => {
   doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases')
     .each((entity) => {
-      entity.markup('<mark class="highlightWordiness" style="background-color: #961216">', '</mark>');
+      entity.markup('<mark class="highlightWordiness" style="background-color: #B4846C">', '</mark>');
     });
 };
 

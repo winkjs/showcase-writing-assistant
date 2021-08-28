@@ -24,23 +24,24 @@ const applyHighlights = (text) => {
    * like sentences(), tokens() or entities().
    */
 
-// -- functions that highlight the mistakes in symbols
-grammar.useConsistentQuotesAndApostrophe();
+  // -- functions that highlight the mistakes in sentence structuring
+  grammar.checkFirstWordOfSentence();         // working
 
-  // -- customEntities()-based functions.
-  grammar.checkUseOfAdverbs();
-  grammar.highlightUseOfOxymorons();
-  grammar.highlightWordiness();
-  grammar.avoidAbusiveWords();
+  // -- functions that highlight mistakes in parts of sentences
+  grammar.checkUseOfAdverbs();                // working
+  grammar.avoidAbusiveWords();                // working
+  grammar.highlightUseOfOxymorons();          // working
+  grammar.highlightWordiness();               // working
   // grammar.checkUseOfPassiceVoice();
   // grammar.checkDuplicateWords();
 
-  // -- functions that use normal collections.
-  grammar.checkIncorrectContractions();
-  grammar.checkIncorrectPunctuationSpacing();
-  grammar.checkFirstWordOfSentence();
-  grammar.checkUseOfLongSentence();
-  grammar.avoidStartingWithConjunctions();
+  // -- functions that emphasis grammar rules
+  grammar.useConsistentApostrophe();          // working
+  grammar.avoidStartingWithConjunctions();    // working
+  grammar.checkIncorrectContractions();       // working
+  grammar.checkIncorrectPunctuationSpacing(); // working
+  grammar.checkUseOfLongSentence();           // wprking x 2
+
 
   return grammar.getTextAndLog();
 };
@@ -49,9 +50,9 @@ grammar.useConsistentQuotesAndApostrophe();
  * @description A simple function that handles the input.
  */
 const handleInput = () => {
-  console.log(language);
   var text = $textarea.val();
   var language = $dropdown.val();
+  // console.log(language);
   var [highlightedText, log] = applyHighlights(text);
   $highlights.html(highlightedText);
 };

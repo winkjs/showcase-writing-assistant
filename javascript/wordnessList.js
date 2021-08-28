@@ -28,7 +28,7 @@ export default function wordinessPhrases() {
         '[all] [of]',
         '[all] [of] [a] [sudden]',
         '[all] [of] [these]',
-        // '[all-time] [record]',
+        '[all] [time] [record]',
         '[all] [said]',
         '[almost] [never]',
         '[along] [the] [lines] [of]',

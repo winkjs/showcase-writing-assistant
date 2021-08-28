@@ -8,12 +8,12 @@ const its = nlp.its;
 const as = nlp.as;
 
 
-var doc, logs, textIsEmpty;
+var doc, logs;
 const patterns = [
   { name: 'adverbSentences', patterns: ['[ADV]'] },
-  { name: 'oxymoron', patterns:oxymoronList() },
-  { name: 'abusiveWords', patterns: absusiveWords()},
-  { name: 'wordinessPhrases', patterns: wordinessPhrases()}
+  { name: 'oxymoron', patterns: oxymoronList() },
+  { name: 'abusiveWords', patterns: absusiveWords() },
+  { name: 'wordinessPhrases', patterns: wordinessPhrases() }
 ]
 
 nlp.learnCustomEntities(patterns);
@@ -21,8 +21,6 @@ nlp.learnCustomEntities(patterns);
 module.exports = (text) => {
   logs = [];
   doc = nlp.readDoc(text);
-  textIsEmpty = text === '' ? true : false;
-  
 };
 
 module.exports.getTextAndLog = () => {
@@ -59,9 +57,9 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
  * @description Check if the first word of sentence is capital or not.
  */
 module.exports.checkFirstWordOfSentence = () => {
-  if (!textIsEmpty) {
+  if (doc.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
     doc.sentences().each((sentence) => {
-      var firstWord = sentence.tokens().itemAt(0);
+      var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
       if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length < 1))
         firstWord.markup('<mark style="background-color: #F037A5">', '</mark>');
     });
@@ -70,11 +68,14 @@ module.exports.checkFirstWordOfSentence = () => {
 
 
 /** 
- * @description Check use of adverbs.
+ * @description Check use of adverbs. Adverbs are okay to be used, but it is generally recommended
+ * that use of -ly ending adverbs should be avoided, and there should be only two adverbs at most
+ * - if a sentence is moderately large.
  */
 module.exports.checkUseOfAdverbs = () => {
   const adverbSentence = doc.customEntities().filter((sentence) => sentence.out(its.type) === 'adverbSentences');
   // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
+  // This is when you want to mark the whole sentence, instead of individual adverbs
   adverbSentence.each((token) => token.markup('<mark style="background-color: #F6D167">', '</mark>'))
 };
 
@@ -169,9 +170,9 @@ exports.useConsistentQuotesAndApostrophe = (text) => {
  */
 module.exports.highlightWordiness = (text) => {
   doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases')
-  .each((entity) => {
-    entity.markup('<mark style="background-color: #961216">', '</mark>');
-  });
+    .each((entity) => {
+      entity.markup('<mark style="background-color: #961216">', '</mark>');
+    });
 };
 
 
@@ -191,11 +192,15 @@ module.exports.highlightUseOfOxymorons = () => {
  * @description A function that warns the user for starting with a conjunction
  */
 module.exports.avoidStartingWithConjunctions = () => {
-  if (!textIsEmpty) {
+  if (doc.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
     doc.sentences().each((sentence) => {
-      var firstWord = sentence.tokens().itemAt(0);
-      if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ')
-        firstWord.markup('<mark style="background-color: #FFF5AB">', '</mark>');
+      if (sentence.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
+        var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
+        // console.log(firstWord.out());
+        if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {
+          firstWord.markup('<mark style="background-color: #FFF5AB">', '</mark>');
+        }
+      }
     });
   }
 };

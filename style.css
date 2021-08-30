@@ -11,6 +11,55 @@ body {
   background-color: #f0f0f0;
 }
 
+.navbar {
+  border-top: 4px solid #6c307d;
+  box-sizing: border-box;
+  height: 64px;
+  background-color: #222;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 1030;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar-header {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.navbar-header a img {
+  height: 24px;
+}
+
+.navbar a {
+  color: #fff;
+  line-height: 60px;
+  margin-left: 0;
+  text-decoration: none;
+}
+
+.navbar a.navbar-brand {
+  margin-left: 20px;
+}
+
+.navbar-right {
+  margin: 0;
+  line-height: 50px;
+  list-style: none;
+}
+
+.navbar-right li {
+  float: left;
+  margin-right: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-left: 20px;
+  font-size: 14px;
+}
+
 .container,
 .backdrop,
 textarea {

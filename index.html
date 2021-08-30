@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="jquery.min.js"></script>
+    <script src="javascript/jquery.min.js"></script>
     <link rel="stylesheet" href="style.css">
-       
+
 </head>
+
 <body>
+    <header>
+        <div class="navbar">
+            <div class="navbar-header">
+                <a href="https://winkjs.org/" title="wink" class="navbar-brand">
+                    <img src="https://winkjs.org/images/logo.svg">
+                    wink
+                </a>
+            </div>
+            <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="main-nav">
+                <li><a href="https://winkjs.org/packages.html" class="">Packages</a></li>
+                <li><a href="https://winkjs.org/showcase.html" class="">Showcase</a></li>
+                <li><a href="https://winkjs.org/blog.html" class="">Blog</a></li>
+                <li><a href="http://github.com/winkjs">Github</a></li>
+                <li><a href="https://winkjs.org/about.html" class="">About</a></li>
+            </ul>
+        </div>
+    </header>
+    <br>
+    <br>
     <br>
     <br>
     <div class="container">
@@ -20,17 +41,14 @@
     </div>
     <br>
     <br>
-    <!-- <div class="lang-dropdown">
-        <select name="lang" id="lang">
-            <optgroup label="English">
-                <option value="en-GB">British</option>
-                <option value="en-US">American</option>
-            </optgroup>
-        </select>
-    </div> -->
+    <select class="language">
+        <option value="en_GB">British English</option>
+        <option value="en_US">American English</option>
+    </select>
     <br>
     <br>
     <button>Toggle Perspective</button>
-<script src="bundle.js"></script>
+    <script src="bundle.js"></script>
 </body>
+
 </html>

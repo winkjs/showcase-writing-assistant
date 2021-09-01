@@ -157,12 +157,12 @@ module.exports.avoidConstructs = () => {
  * (Note: might also use em-dash, which we are not checking for).
  */
 module.exports.highlightInterjectionsWithoutPunctuations = () => {
-  const tokens = doc.tokens();
+  const tokens = doc.tsokens();
   const sentences = doc.sentences();
   if(sentences.length() === tokens.filter((token) => token.out()==='.' || token.out()==='!' || token.out()==='?' ).out().length) {
     tokens.filter( (token, index) => 
       token.out(its.pos) === 'INTJ' && (tokens.itemAt(index + 1).out()  === '?' || tokens.itemAt(index + 1).out()  === '!' || tokens.itemAt(index + 1).out()  === ',' || tokens.itemAt(index + 1).out()  === '.') )
-      .each( (token) => console.log(token.out()) ) ;
+      .each( (token) => token.markup('<mark class="useConsistentApostrophe" style="background-color: #A0937D">', '</mark>') ) ;
   }
 };
 

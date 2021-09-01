@@ -25,23 +25,23 @@ const applyHighlights = (text) => {
    */
 
   // -- functions that highlight the mistakes in sentence structuring
-  grammar.checkFirstWordOfSentence();         // working
+  grammar.checkFirstWordOfSentence();                // working
 
   // -- functions that highlight mistakes in parts of sentences
-  grammar.checkUseOfAdverbs();                // working
-  grammar.avoidAbusiveWords();                // working
-  grammar.highlightUseOfOxymorons();          // working
-  grammar.highlightWordiness();               // working
+  grammar.checkUseOfAdverbs();                          // working
+  grammar.avoidAbusiveWords();                          // working
+  grammar.highlightUseOfOxymorons();                    // working
+  grammar.highlightWordiness();                         // working
   // grammar.checkUseOfPassiceVoice();
   // grammar.checkDuplicateWords();
 
   // -- functions that emphasis grammar rules
-  grammar.useConsistentApostrophe();          // working
-  grammar.avoidStartingWithConjunctions();    // working
-  grammar.checkIncorrectContractions();       // working
-  grammar.checkIncorrectPunctuationSpacing(); // working
-  grammar.checkUseOfLongSentence();           // wprking x 2
-
+  grammar.useConsistentApostrophe();                    // working
+  grammar.avoidStartingWithConjunctions();              // working
+  grammar.checkIncorrectContractions();                 // working
+  grammar.checkIncorrectPunctuationSpacing();           // working
+  grammar.checkUseOfLongSentence();                     // working x 2
+  grammar.highlightInterjectionsWithoutPunctuations();  // working
 
   return grammar.getTextAndLog();
 };

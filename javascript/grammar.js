@@ -49,7 +49,9 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
   const filteredTokens = doc.tokens()
     .filter((token) => token.out(its.pos) === 'PUNCT' && token.out(its.value) === ',')
     .filter((token) => !(token.out(its.precedingSpaces) === ""));
-  filteredTokens.each((token) => token.markup('<mark class="checkIncorrectPunctuationSpacing" style="background-color: #B980F0">', '</mark>'));
+  filteredTokens.each((token) => { 
+    token.markup('<mark class="checkIncorrectPunctuationSpacing" style="background-color: #B980F0">', '</mark>')
+  });
   if (filteredTokens.out().length > 0) logs.push(filteredTokens.out().length + " punctuations are incorrect!");
 };
 
@@ -62,7 +64,7 @@ module.exports.checkFirstWordOfSentence = () => {
     doc.sentences().each((sentence) => {
       var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
       // console.log(firstWord.out(its.value));
-      if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length < 1))
+      if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1))
         firstWord.markup('<mark class="checkFirstWordOfSentence" style="background-color: #F037A5">', '</mark>');
     });
   }
@@ -128,7 +130,8 @@ module.exports.avoidAbusiveWords = () => {
 /**
  * @description Use consistent spellings - either British or American.
  */
-exports.useConsistentSpellings = () => {
+module.exports.useConsistentSpellings = () => {
+
 };
 
 
@@ -136,8 +139,8 @@ exports.useConsistentSpellings = () => {
  * @description Always use consistent apostrophe (curly vs straight). No need to check for quotes.
  */
 module.exports.useConsistentApostrophe = () => {
-  doc.customEntities().filter( (entity) => entity.out(its.type) === 'curlyApostrophes')
-    .each( (symbol) => symbol.markup('<mark class="useConsistentApostrophe" style="background-color: #A0937D">', '</mark>') );
+  doc.customEntities().filter((entity) => entity.out(its.type) === 'curlyApostrophes')
+  .each((symbol) => symbol.markup('<mark class="useConsistentApostrophe" style="background-color: #A0937D">', '</mark>'));
 };
 
 
@@ -145,16 +148,22 @@ module.exports.useConsistentApostrophe = () => {
  * @description Avoid use of "am" and "pm" when sentences defines the time of the 
  * day(i.e. morning, evening, night, etc).
  */
-exports.avoidConstructs = () => {
-  // console.out(doc.out());
+module.exports.avoidConstructs = () => {
+  
 };
 
 /**
  * @description Highlights interjections without punctuations 
  * (Note: might also use em-dash, which we are not checking for).
  */
-exports.highlightInterjectionsWithoutComma = () => {
-  // doc.
+module.exports.highlightInterjectionsWithoutPunctuations = () => {
+  const tokens = doc.tokens();
+  const sentences = doc.sentences();
+  if(sentences.length() === tokens.filter((token) => token.out()==='.' || token.out()==='!' || token.out()==='?' ).out().length) {
+    tokens.filter( (token, index) => 
+      token.out(its.pos) === 'INTJ' && (tokens.itemAt(index + 1).out()  === '?' || tokens.itemAt(index + 1).out()  === '!' || tokens.itemAt(index + 1).out()  === ',' || tokens.itemAt(index + 1).out()  === '.') )
+      .each( (token) => console.log(token.out()) ) ;
+  }
 };
 
 
@@ -162,10 +171,8 @@ exports.highlightInterjectionsWithoutComma = () => {
  * @description Highlights wordiness (includes redundant acronym syndrome).
  */
 module.exports.highlightWordiness = () => {
-  doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases')
-    .each((entity) => {
-      entity.markup('<mark class="highlightWordiness" style="background-color: #B4846C">', '</mark>');
-    });
+  doc.customEntities().filter((entity) => entity.out(its.type) === 'wordinessPhrases').each((entity) =>
+    entity.markup('<mark class="highlightWordiness" style="background-color: #B4846C">', '</mark>'));
 };
 
 
@@ -173,11 +180,9 @@ module.exports.highlightWordiness = () => {
  * @description A function that highlights the use of oxymoron.
  */
 module.exports.highlightUseOfOxymorons = () => {
-  const oxymorons = doc.customEntities()
+  doc.customEntities()
     .filter((e) => e.out(its.type) === 'oxymoron')
-    .each((entity) => {
-      entity.markup('<mark class="highlightUseOfOxymorons" style="background-color: #FFF542">', '</mark>');
-    });
+    .each((entity) => entity.markup('<mark class="highlightUseOfOxymorons" style="background-color: #FFF542">', '</mark>'));
 };
 
 
@@ -187,7 +192,7 @@ module.exports.highlightUseOfOxymorons = () => {
 module.exports.avoidStartingWithConjunctions = () => {
   if (doc.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
     doc.sentences().each((sentence) => {
-      if (sentence.out() !== ("%c<empty string>", "", "font-style: italic;", "")) {
+      if ( sentence.out() !== ("%c<empty string>", "", "font-style: italic;", "") && sentence.tokens().itemAt(0).out(its.type) === 'word') {
         var firstWord = sentence.tokens().filter((word) => word.out(its.type) === 'word').itemAt(0);
         // console.log(firstWord.out());
         if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {

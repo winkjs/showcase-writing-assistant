@@ -1,4 +1,4 @@
-var grammar = require('./grammar');
+var grammar = require('./grammar.mjs');
 var $container = $('.container');
 var $backdrop = $('.backdrop');
 var $highlights = $('.highlights');
@@ -32,8 +32,9 @@ const applyHighlights = (text) => {
   grammar.avoidAbusiveWords();                          // working
   grammar.highlightUseOfOxymorons();                    // working
   grammar.highlightWordiness();                         // working
+
   // grammar.checkUseOfPassiceVoice();
-  // grammar.checkDuplicateWords();
+  grammar.checkDuplicateWords();
 
   // -- functions that emphasis grammar rules
   grammar.useConsistentApostrophe();                    // working

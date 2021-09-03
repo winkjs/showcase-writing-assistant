@@ -1,6 +1,6 @@
-import oxymoronList from './oxymoronList.js'
-import abusiveWords from './abusiveList.js';
-import wordinessPhrases from './wordnessList.js';
+import oxymoronList from './oxymoronList.mjs'
+import abusiveWords from './abusiveList.mjs';
+import wordinessPhrases from './wordnessList.mjs';
 const winkNLP = require('wink-nlp');
 const model = require('wink-eng-lite-web-model');
 const nlp = winkNLP(model);
@@ -84,12 +84,11 @@ module.exports.checkUseOfAdverbs = () => {
 };
 
 
-/** !Warning: Work in progress - DO NOT USE.
+/**
  * @description Check use of passive voice.
  */
 module.exports.checkUseOfPassiveVoice = () => {
-  // const tokens = doc.tokens();
-  // const filteredTokens = tokens.filter((token, index) => token.out(its.pos) === 'AUX' && console.log(tokens.itemAt(index + 1).out(its.lemma)));
+  // -- empty function
 };
 
 
@@ -113,7 +112,16 @@ module.exports.checkUseOfLongSentence = () => {
  * @description Check for duplicate words.
  */
 module.exports.checkDuplicateWords = () => {
-
+  const sentences = doc.sentences();
+  const tokens = doc.tokens();
+  if(sentences.length() === tokens.filter((token) => token.out()==='.' || token.out()==='!' || token.out()==='?' ).out().length) {
+    sentences.each( (sentence) => sentence.tokens().each( (token, index) => {
+      if ( (index < sentence.tokens().length() - 2) && token.out() === token.parentSentence().tokens().itemAt(index+1).out() ) { 
+        token.markup('<mark class="checkDuplicateWords" style="background-color: #C2F784">', '</mark>');
+        token.parentSentence().tokens().itemAt(index+1).markup('<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #C2F784">', '</mark>');
+      }
+    }));
+  }
 };
 
 /**
@@ -131,7 +139,7 @@ module.exports.avoidAbusiveWords = () => {
  * @description Use consistent spellings - either British or American.
  */
 module.exports.useConsistentSpellings = () => {
-
+  // -- empty function
 };
 
 
@@ -149,7 +157,7 @@ module.exports.useConsistentApostrophe = () => {
  * day(i.e. morning, evening, night, etc).
  */
 module.exports.avoidConstructs = () => {
-  
+  // -- empty function
 };
 
 /**
@@ -162,7 +170,7 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
   if(sentences.length() === tokens.filter((token) => token.out()==='.' || token.out()==='!' || token.out()==='?' ).out().length) {
     tokens.filter( (token, index) => 
       token.out(its.pos) === 'INTJ' && !(tokens.itemAt(index + 1).out()  === '?' || tokens.itemAt(index + 1).out()  === '!' || tokens.itemAt(index + 1).out()  === ',' || tokens.itemAt(index + 1).out()  === '.') )
-      .each( (token) => token.markup('<mark class="useConsistentApostrophe" style="background-color: #A0937D">', '</mark>') ) ;
+      .each( (token) => token.markup('<mark class="highlightInterjectionsWithoutPunctuations" style="background-color: #A0937D">', '</mark>') ) ;
   }
 };
 

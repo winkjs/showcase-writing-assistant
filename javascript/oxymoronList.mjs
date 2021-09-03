@@ -1,3 +1,7 @@
+/**
+ * @description
+ * @returns All the 
+ */
 export default function oxymoronList() {
     return ([
         '[act] [natural]',

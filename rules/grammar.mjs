@@ -42,7 +42,7 @@ module.exports.checkIncorrectContractions = () => {
       (token, index) => index % 2 !== 0 && !token.out(its.value).includes("'")
     )
   filteredTokens.each((token, index) =>
-    token.markup('<mark style="background-color: #FF4848">', '</mark>')
+    token.markup('<mark class="checkIncorrectContractions">', '</mark>')
   )
   if (filteredTokens.out().length > 0)
     logs.push(filteredTokens.out().length + ' contractions are incorrect!')
@@ -95,10 +95,7 @@ module.exports.checkFirstWordOfSentence = () => {
           firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1
         )
       )
-        firstWord.markup(
-          '<mark class="checkFirstWordOfSentence" style="background-color: #F037A5">',
-          '</mark>'
-        )
+        firstWord.markup('<mark class="checkFirstWordOfSentence" >', '</mark>')
     })
   }
 }
@@ -115,10 +112,7 @@ module.exports.checkUseOfAdverbs = () => {
   // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
   // This is when you want to mark the whole sentence, instead of individual adverbs
   adverbSentence.each((token) =>
-    token.markup(
-      '<mark class="checkUseOfAdverbs" style="background-color: #F6D167">',
-      '</mark>'
-    )
+    token.markup('<mark class="checkUseOfAdverbs" >', '</mark>')
   )
 }
 
@@ -140,13 +134,10 @@ module.exports.checkUseOfLongSentence = () => {
       .filter((token) => token.out(its.type) === 'word')
       .out().length
     if (wordCount >= 15 && wordCount < 21) {
-      sentence.markup(
-        '<mark class="checkUseOfLongSentence-Long" style="background-color: #D4F3EF">',
-        '</mark>'
-      )
+      sentence.markup('<mark class="checkUseOfLongSentence-Long" >', '</mark>')
     } else if (wordCount >= 21) {
       sentence.markup(
-        '<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #C2F784">',
+        '<mark class="checkUseOfLongSentence-VeryLong" >',
         '</mark>'
       )
     }
@@ -179,18 +170,12 @@ module.exports.checkDuplicateWords = () => {
               .itemAt(index + 1)
               .out()
         ) {
-          token.markup(
-            '<mark class="checkDuplicateWords" style="background-color: #C2F784">',
-            '</mark>'
-          )
+          token.markup('<mark class="checkDuplicateWords" >', '</mark>')
           token
             .parentSentence()
             .tokens()
             .itemAt(index + 1)
-            .markup(
-              '<mark class="checkUseOfLongSentence-VeryLong" style="background-color: #C2F784">',
-              '</mark>'
-            )
+            .markup('<mark class="checkUseOfLongSentence-VeryLong">', '</mark>')
         }
       })
     )
@@ -205,10 +190,7 @@ module.exports.avoidAbusiveWords = () => {
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
-      entity.markup(
-        '<mark class="avoidAbusiveWords" style="background-color: #81B214">',
-        '</mark>'
-      )
+      entity.markup('<mark class="avoidAbusiveWords" >', '</mark>')
     })
 }
 
@@ -227,10 +209,7 @@ module.exports.useConsistentApostrophe = () => {
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'curlyApostrophes')
     .each((symbol) =>
-      symbol.markup(
-        '<mark class="useConsistentApostrophe" style="background-color: #A0937D">',
-        '</mark>'
-      )
+      symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>')
     )
 }
 
@@ -243,10 +222,7 @@ module.exports.avoidRedundantConstruct = () => {
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'RedundantPhrases')
     .each((entity) =>
-      entity.markup(
-        '<mark class="avoidRedundantConstruct" style="background-color: #B4846C">',
-        '</mark>'
-      )
+      entity.markup('<mark class="avoidRedundantConstruct" >', '</mark>')
     )
 }
 
@@ -279,7 +255,7 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
       )
       .each((token) =>
         token.markup(
-          '<mark class="highlightInterjectionsWithoutPunctuations" style="background-color: #A0937D">',
+          '<mark class="highlightInterjectionsWithoutPunctuations" >',
           '</mark>'
         )
       )
@@ -294,25 +270,19 @@ module.exports.highlightWordiness = () => {
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'wordinessPhrases')
     .each((entity) =>
-      entity.markup(
-        '<mark class="highlightWordiness" style="background-color: #B4846C">',
-        '</mark>'
-      )
+      entity.markup('<mark class="highlightWordiness">', '</mark>')
     )
 }
 
 /**
  * @description A function that highlights the use of oxymoron.
  */
-module.exports.highlightUseOfOxymorons = () => {
+module.exports.highlightUseOfOxymoron = () => {
   doc
     .customEntities()
     .filter((e) => e.out(its.type) === 'oxymoron')
     .each((entity) =>
-      entity.markup(
-        '<mark class="highlightUseOfOxymorons" style="background-color: #FFF542">',
-        '</mark>'
-      )
+      entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>')
     )
 }
 
@@ -337,7 +307,7 @@ module.exports.avoidStartingWithConjunctions = () => {
           firstWord.out(its.pos) === 'CCONJ'
         ) {
           firstWord.markup(
-            '<mark class="avoidStartingWithConjunctions" style="background-color: #FFF5AB">',
+            '<mark class="avoidStartingWithConjunctions" >',
             '</mark>'
           )
         }

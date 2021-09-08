@@ -1,10 +1,10 @@
-var grammar = require('./grammar.mjs');
-var $container = $('.container');
-var $backdrop = $('.backdrop');
-var $highlights = $('.highlights');
-var $textarea = $('textarea');
-var $toggle = $('button');
-var $dropdown = $('.language');
+var grammar = require('./grammar.mjs')
+var $container = $('.container')
+var $backdrop = $('.backdrop')
+var $highlights = $('.highlights')
+var $textarea = $('textarea')
+var $toggle = $('button')
+var $dropdown = $('.language')
 
 /**
  * @description Applies all the required highlights layer-by-layer.
@@ -14,7 +14,7 @@ var $dropdown = $('.language');
  * 2. An array that has all the logs saved to show grammar errors.
  */
 const applyHighlights = (text) => {
-  grammar(text);
+  grammar(text)
 
   /**
    * @author Ashvith
@@ -25,48 +25,48 @@ const applyHighlights = (text) => {
    */
 
   // -- functions that highlight the mistakes in sentence structuring
-  grammar.checkFirstWordOfSentence();                // working
+  grammar.checkFirstWordOfSentence() // working
 
   // -- functions that highlight mistakes in parts of sentences
-  grammar.checkUseOfAdverbs();                          // working
-  grammar.avoidAbusiveWords();                          // working
-  grammar.highlightUseOfOxymorons();                    // working
-  grammar.highlightWordiness();                         // working
+  grammar.checkUseOfAdverbs() // working
+  grammar.avoidAbusiveWords() // working
+  grammar.highlightUseOfOxymoron() // working
+  grammar.highlightWordiness() // working
 
   // grammar.checkUseOfPassiceVoice();
-  grammar.checkDuplicateWords();
+  grammar.checkDuplicateWords()
 
   // -- functions that emphasis grammar rules
-  grammar.useConsistentApostrophe();                    // working
-  grammar.avoidStartingWithConjunctions();              // working
-  grammar.checkIncorrectContractions();                 // working
-  grammar.checkIncorrectPunctuationSpacing();           // working
-  grammar.checkUseOfLongSentence();                     // working x 2
-  grammar.highlightInterjectionsWithoutPunctuations();  // working
+  grammar.useConsistentApostrophe() // working
+  grammar.avoidStartingWithConjunctions() // working
+  grammar.checkIncorrectContractions() // working
+  grammar.checkIncorrectPunctuationSpacing() // working
+  grammar.checkUseOfLongSentence() // working x 2
+  grammar.highlightInterjectionsWithoutPunctuations() // working
 
-  return grammar.getTextAndLog();
-};
+  return grammar.getTextAndLog()
+}
 
 /**
  * @description A simple function that handles the input.
  */
 const handleInput = () => {
-  var text = $textarea.val();
-  var language = $dropdown.val();
+  var text = $textarea.val()
+  var language = $dropdown.val()
   // console.log(language);
-  var [highlightedText, log] = applyHighlights(text);
-  $highlights.html(highlightedText);
-};
+  var [highlightedText, log] = applyHighlights(text)
+  $highlights.html(highlightedText)
+}
 
 /**
  * @description A simple function that handles the scroll for textarea and highlight.
  */
 const handleScroll = () => {
-  var scrollTop = $textarea.scrollTop();
-  $backdrop.scrollTop(scrollTop);
-  var scrollLeft = $textarea.scrollLeft();
-  $backdrop.scrollLeft(scrollLeft);
-};
+  var scrollTop = $textarea.scrollTop()
+  $backdrop.scrollTop(scrollTop)
+  var scrollLeft = $textarea.scrollLeft()
+  $backdrop.scrollLeft(scrollLeft)
+}
 
 /**
  * @description A simple function that binds all the events together.
@@ -75,16 +75,16 @@ const bindEvents = () => {
   $textarea.on({
     input: handleInput,
     scroll: handleScroll,
-  });
+  })
 
   $toggle.on('click', function () {
-    $container.toggleClass('perspective');
-  });
+    $container.toggleClass('perspective')
+  })
   // console.log($dropdown.val());
   $dropdown.on({
     change: handleInput,
-  });
-};
+  })
+}
 
-bindEvents();
-handleInput();
+bindEvents()
+handleInput()

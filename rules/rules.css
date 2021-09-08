@@ -23,6 +23,7 @@
 }
 
 .checkDuplicateWords {
+  background-color: #2b0668;
 }
 
 .avoidAbusiveWords {
@@ -33,6 +34,7 @@
 }
 
 .avoidConstructs {
+  background-color: #71b405;
 }
 
 .highlightInterjectionsWithoutPunctuations {

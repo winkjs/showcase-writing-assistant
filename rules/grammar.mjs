@@ -44,8 +44,9 @@ module.exports.checkIncorrectContractions = () => {
   filteredTokens.each((token, index) =>
     token.markup('<mark class="checkIncorrectContractions">', '</mark>')
   )
-  if (filteredTokens.out().length > 0)
+  if (filteredTokens.out().length > 0) {
     logs.push(filteredTokens.out().length + ' contractions are incorrect!')
+  }
 }
 
 /** Works fine - condition is limited to checking the following properties -
@@ -54,26 +55,24 @@ module.exports.checkIncorrectContractions = () => {
  * @description Check for incorrect usage of punctuation spacing.
  */
 module.exports.checkIncorrectPunctuationSpacing = () => {
-  const tokens = doc.tokens()
-  const filteredTokens = doc
+  const tokens = doc
     .tokens()
+
+  const filteredTokens = tokens
     .filter(
       (token) => token.out(its.pos) === 'PUNCT' && token.out(its.value) === ','
     )
     .filter(
       (token, index) =>
-        !(token.out(its.precedingSpaces) === '') ||
-        token
-          .parentSentence()
-          .tokens()
-          .itemAt(index + 1)
-          .out(its.precedingSpaces) === ''
+        !(token.out(its.precedingSpaces) === '' &&
+          tokens.itemAt(token.index() + 1).out(its.precedingSpaces) === ' ')
     )
+
   filteredTokens.each((token) => {
     token.markup('<mark class="checkIncorrectPunctuationSpacing" >', '</mark>')
   })
 
-  console.log(doc.out(its.markedUpText))
+  // console.log(doc.out(its.markedUpText));
   if (filteredTokens.out().length > 0)
     logs.push(filteredTokens.out().length + ' punctuations are incorrect!')
 }
@@ -108,12 +107,12 @@ module.exports.checkFirstWordOfSentence = () => {
 module.exports.checkUseOfAdverbs = () => {
   const adverbSentence = doc
     .customEntities()
-    .filter((sentence) => sentence.out(its.type) === 'adverbSentences')
+    .filter((sentence) => sentence.out(its.type) === 'adverbSentences');
   // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
   // This is when you want to mark the whole sentence, instead of individual adverbs
   adverbSentence.each((token) =>
     token.markup('<mark class="checkUseOfAdverbs" >', '</mark>')
-  )
+  );
 }
 
 /**
@@ -127,7 +126,7 @@ module.exports.checkUseOfPassiveVoice = () => {
  * @description Marks long and very long sentences.
  */
 module.exports.checkUseOfLongSentence = () => {
-  const sentences = doc.sentences()
+  const sentences = doc.sentences();
   sentences.each((sentence) => {
     let wordCount = sentence
       .tokens()
@@ -141,15 +140,15 @@ module.exports.checkUseOfLongSentence = () => {
         '</mark>'
       )
     }
-  })
+  });
 }
 
 /**
  * @description Check for duplicate words.
  */
 module.exports.checkDuplicateWords = () => {
-  const sentences = doc.sentences()
-  const tokens = doc.tokens()
+  const sentences = doc.sentences();
+  const tokens = doc.tokens();
   if (
     sentences.length() ===
     tokens
@@ -164,11 +163,11 @@ module.exports.checkDuplicateWords = () => {
         if (
           index < sentence.tokens().length() - 2 &&
           token.out() ===
-            token
-              .parentSentence()
-              .tokens()
-              .itemAt(index + 1)
-              .out()
+          token
+            .parentSentence()
+            .tokens()
+            .itemAt(index + 1)
+            .out()
         ) {
           token.markup('<mark class="checkDuplicateWords" >', '</mark>')
           token
@@ -179,7 +178,7 @@ module.exports.checkDuplicateWords = () => {
         }
       })
     )
-  }
+  };
 }
 
 /**
@@ -191,7 +190,7 @@ module.exports.avoidAbusiveWords = () => {
     .filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
       entity.markup('<mark class="avoidAbusiveWords" >', '</mark>')
-    })
+    });
 }
 
 /**
@@ -210,7 +209,7 @@ module.exports.useConsistentApostrophe = () => {
     .filter((entity) => entity.out(its.type) === 'curlyApostrophes')
     .each((symbol) =>
       symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>')
-    )
+    );
 }
 
 /**
@@ -223,7 +222,7 @@ module.exports.avoidRedundantConstruct = () => {
     .filter((entity) => entity.out(its.type) === 'RedundantPhrases')
     .each((entity) =>
       entity.markup('<mark class="avoidRedundantConstruct" >', '</mark>')
-    )
+    );
 }
 
 /**
@@ -231,8 +230,8 @@ module.exports.avoidRedundantConstruct = () => {
  * (Note: might also use em-dash, which we are not checking for).
  */
 module.exports.highlightInterjectionsWithoutPunctuations = () => {
-  const tokens = doc.tokens()
-  const sentences = doc.sentences()
+  const tokens = doc.tokens();
+  const sentences = doc.sentences();
   if (
     sentences.length() ===
     tokens
@@ -259,8 +258,8 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
           '</mark>'
         )
       )
-  }
-}
+  };
+};
 
 /**
  * @description Highlights wordiness (includes redundant acronym syndrome).
@@ -271,8 +270,8 @@ module.exports.highlightWordiness = () => {
     .filter((entity) => entity.out(its.type) === 'wordinessPhrases')
     .each((entity) =>
       entity.markup('<mark class="highlightWordiness">', '</mark>')
-    )
-}
+    );
+};
 
 /**
  * @description A function that highlights the use of oxymoron.
@@ -283,8 +282,8 @@ module.exports.highlightUseOfOxymoron = () => {
     .filter((e) => e.out(its.type) === 'oxymoron')
     .each((entity) =>
       entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>')
-    )
-}
+    );
+};
 
 /**
  * @description A function that warns the user for starting with a conjunction
@@ -294,7 +293,7 @@ module.exports.avoidStartingWithConjunctions = () => {
     doc.sentences().each((sentence) => {
       if (
         sentence.out() !==
-          ('%c<empty string>', '', 'font-style: italic;', '') &&
+        ('%c<empty string>', '', 'font-style: italic;', '') &&
         sentence.tokens().itemAt(0).out(its.type) === 'word'
       ) {
         var firstWord = sentence
@@ -313,5 +312,5 @@ module.exports.avoidStartingWithConjunctions = () => {
         }
       }
     })
-  }
+  };
 }

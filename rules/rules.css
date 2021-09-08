@@ -1,0 +1,56 @@
+.checkIncorrectPunctuationSpacing {
+  background-color: #f7ef84;
+}
+
+.checkIncorrectContractions {
+  background-color: #ff4848;
+}
+
+.checkFirstWordOfSentence {
+  background-color: #f037a5;
+}
+
+.checkUseOfAdverbs {
+  background-color: #f6d167;
+}
+
+.checkUseOfLongSentence-Long {
+  background-color: #d4f3ef;
+}
+
+.checkUseOfLongSentence-VeryLong {
+  background-color: #c2f784;
+}
+
+.checkDuplicateWords {
+}
+
+.avoidAbusiveWords {
+  background-color: #81b214;
+}
+
+.useConsistentSpellings {
+}
+
+.avoidConstructs {
+}
+
+.highlightInterjectionsWithoutPunctuations {
+  background-color: #a0937d;
+}
+
+.highlightWordiness {
+  background-color: #b4846c;
+}
+
+.highlightUseOfOxymoron {
+  background-color: #fff542;
+}
+
+.avoidStartingWithConjunctions {
+  background-color: #fff5ab;
+}
+
+.useConsistentApostrophe {
+  background-color: #a0937d;
+}

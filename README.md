@@ -8,10 +8,10 @@
 
 ## Rules used
 1. ✅ Incorrect contractions — `cant` v/s `can't`:
-    - Approach 1 : We can check for contraction flag if true split the word and check for the last 2 ending letters
+    - Approach 1 : We can check for contraction flag. If true split the word and check for the last 2 ending letters
 
 2. ✅ Incorrect punctuation spacing — `yes,` v/s `yes ,`:
-    - Approach 1 : check for PUNC entity and check for its.precedingSpaces
+    - Approach 1 : check for PUNC entity and check for its.precedingSpaces as well as the succeding space.
 
 3. ✅ First word of sentence is not capitalized
     - Check for its.case before a period PUNC and check if first word of sentence is Title Case

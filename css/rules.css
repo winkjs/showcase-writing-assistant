@@ -51,9 +51,13 @@
 }
 
 .avoidStartingWithConjunctions {
-  background-color: #fff5ab;
+  background-color: #11a336;
 }
 
 .useConsistentApostrophe {
   background-color: #a0937d;
+}
+
+.avoidRedundantConstruct {
+  background-color: #bd0a6c;
 }

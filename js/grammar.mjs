@@ -1,7 +1,6 @@
 import oxymoronList from './oxymoronList.mjs'
 import abusiveWords from './abusiveList.mjs'
-import wordinessPhrases from './wordnessList.mjs'
-import redundantPhrases from './redundantPhrases.mjs'
+import wordinessPhrases from './wordinessList.mjs'
 
 const winkNLP = require('wink-nlp')
 const model = require('wink-eng-lite-web-model')
@@ -16,7 +15,7 @@ const patterns = [
   { name: 'abusiveWords', patterns: abusiveWords() },
   { name: 'wordinessPhrases', patterns: wordinessPhrases() },
   { name: 'curlyApostrophes', patterns: ['[‘|’]'] },
-  { name: 'RedundantPhrases', patterns: redundantPhrases() },
+  { name: 'redundantPhrases', patterns: ['[TIME] [ADP|DET|] [DET|ADP|THE|] [TIME]'] },
 ]
 
 nlp.learnCustomEntities(patterns)
@@ -155,15 +154,11 @@ module.exports.checkUseOfLongSentence = () => {
 module.exports.checkDuplicateWords = () => {
   const sentences = doc.sentences();
   const tokens = doc.tokens();
-  if (
-    sentences.length() ===
-    tokens
-      .filter(
-        (token) =>
-          token.out() === '.' || token.out() === '!' || token.out() === '?'
-      )
-      .out().length
-  ) {
+  if (sentences.length() === tokens
+      .filter((token) => token.out() === '.' || token.out() === '!' || token.out() === '?')
+      .out().length) 
+  {
+    let duplicateWord = 0
     sentences.each((sentence) =>
       sentence.tokens().each((token, index) => {
         if (
@@ -175,15 +170,17 @@ module.exports.checkDuplicateWords = () => {
             .itemAt(index + 1)
             .out()
         ) {
+          duplicateWord += 1
           token.markup('<mark class="checkDuplicateWords" >', '</mark>')
           token
             .parentSentence()
             .tokens()
             .itemAt(index + 1)
-            .markup('<mark class="checkUseOfLongSentence-VeryLong">', '</mark>')
+            .markup('<mark class="checkDuplicateWords">', '</mark>')
         }
       })
     )
+    if (duplicateWord > 0) logs.push(duplicateWord + ' words have duplicates!')
   };
 }
 
@@ -191,12 +188,15 @@ module.exports.checkDuplicateWords = () => {
  * @description Check for abusive words.
  */
 module.exports.avoidAbusiveWords = () => {
+  let count = 0
   doc
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
+      count+=1
       entity.markup('<mark class="avoidAbusiveWords" >', '</mark>')
-    });
+    })
+    if (count > 0) logs.push(count + ' abusive words! Avoid them!')
 }
 
 /**
@@ -210,12 +210,15 @@ module.exports.useConsistentSpellings = () => {
  * @description Always use consistent apostrophe (curly vs straight). No need to check for quotes.
  */
 module.exports.useConsistentApostrophe = () => {
+  let count = 0
   doc
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'curlyApostrophes')
-    .each((symbol) =>
+    .each((symbol) => {
+      count +=1
       symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>')
-    );
+    });
+  if (count > 0) logs.push(count + ' apostrophe not consistent! Use flat apostrophe only!')
 }
 
 /**
@@ -223,12 +226,15 @@ module.exports.useConsistentApostrophe = () => {
  * day(i.e. morning, evening, night, etc).
  */
 module.exports.avoidRedundantConstruct = () => {
+  let count = 0
   doc
-    .customEntities()
-    .filter((entity) => entity.out(its.type) === 'RedundantPhrases')
-    .each((entity) =>
-      entity.markup('<mark class="avoidRedundantConstruct" >', '</mark>')
-    );
+  .customEntities()
+  .filter((entity) => entity.out(its.type) === 'redundantPhrases')
+  .each((entity) => {
+    count+=1
+    entity.markup('<mark class="avoidRedundantConstruct">', '</mark>')
+  });
+  if (count > 0) logs.push(count + ' redundant constructs! Not necessarily wrong, but avoid them!')
 }
 
 /**
@@ -236,6 +242,7 @@ module.exports.avoidRedundantConstruct = () => {
  * (Note: might also use em-dash, which we are not checking for).
  */
 module.exports.highlightInterjectionsWithoutPunctuations = () => {
+  let count = 0
   const tokens = doc.tokens();
   const sentences = doc.sentences();
   if (
@@ -258,65 +265,69 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
             tokens.itemAt(index + 1).out() === '.'
           )
       )
-      .each((token) =>
+      .each((token) => {
+        count+=1
         token.markup(
           '<mark class="highlightInterjectionsWithoutPunctuations" >',
           '</mark>'
         )
-      )
-  };
-};
+        })
+  }
+  if (count > 0) logs.push(count + ' incorrect interjections without proper punctuations! Use the following - "!", ".", "," OR "?".')
+}
 
 /**
  * @description Highlights wordiness (includes redundant acronym syndrome).
  */
 module.exports.highlightWordiness = () => {
+  let count = 0
   doc
     .customEntities()
     .filter((entity) => entity.out(its.type) === 'wordinessPhrases')
-    .each((entity) =>
+    .each((entity) => {
+      count += 1
       entity.markup('<mark class="highlightWordiness">', '</mark>')
-    );
-};
+    })
+  if (count > 0) logs.push(count + ' phrases have been found with wordiness. It is advisible to update them.')
+}
 
-/**
+/** 
  * @description A function that highlights the use of oxymoron.
  */
 module.exports.highlightUseOfOxymoron = () => {
+  let count = 0
   doc
     .customEntities()
     .filter((e) => e.out(its.type) === 'oxymoron')
-    .each((entity) =>
+    .each((entity) => {
+      count += 1
       entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>')
-    );
+    });
+  if (count > 0) logs.push(count + ' oxymorons detected! Careful while using them!')
 };
 
 /**
  * @description A function that warns the user for starting with a conjunction
  */
 module.exports.avoidStartingWithConjunctions = () => {
+  let count = 0
   if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
     doc.sentences().each((sentence) => {
-      if (
-        sentence.out() !==
-        ('%c<empty string>', '', 'font-style: italic;', '') &&
-        sentence.tokens().itemAt(0).out(its.type) === 'word'
+      if (sentence.out() !== ('%c<empty string>', '', 'font-style: italic;', '') //&&
+        //sentence.tokens().itemAt(0).out(its.type) === 'word'
       ) {
         var firstWord = sentence
           .tokens()
           .filter((word) => word.out(its.type) === 'word')
           .itemAt(0)
-        // console.log(firstWord.out());
-        if (
-          firstWord.out(its.pos) === 'SCONJ' ||
-          firstWord.out(its.pos) === 'CCONJ'
-        ) {
-          firstWord.markup(
-            '<mark class="avoidStartingWithConjunctions" >',
+        if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {
+          count += 1
+          firstWord.markup('<mark class="avoidStartingWithConjunctions" >',
             '</mark>'
           )
         }
       }
     })
-  };
+  }
+  if (count > 0) logs.push(count + ' conjunctions! Avoid using them!')
 }

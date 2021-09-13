@@ -1,9 +1,12 @@
 .checkIncorrectPunctuationSpacing {
-  background-color: #f7ef84;
+  background-color: #cf8700;
 }
 
 .checkIncorrectContractions {
-  background-color: #ff4848;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #3f4c96;
 }
 
 .checkFirstWordOfSentence {
@@ -18,17 +21,11 @@
 }
 
 .checkUseOfLongSentence-Long {
-  background-color: transparent;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-decoration-color: #00ffdd;
+  background-color: #00ffdd;
 }
 
 .checkUseOfLongSentence-VeryLong {
-  background-color: transparent;
-  text-decoration: underline;
-  text-decoration-thickness: 4px;
-  text-decoration-color: #3700ff;
+  background-color: #3700ff;
 }
 
 .checkDuplicateWords {
@@ -39,11 +36,11 @@
 }
 
 .avoidAbusiveWords {
-  background-color: #81b214;
+  background-color: #cbff5b;
 }
 
 .useConsistentSpellings {
-  background-color: #f1b818a2;
+  background-color: #ffd35ba2;
 }
 
 .avoidConstructs {

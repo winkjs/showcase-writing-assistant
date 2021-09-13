@@ -1,7 +1,7 @@
 import oxymoronList from './oxymoronList.mjs'
 import abusiveWords from './abusiveList.mjs'
 import wordinessPhrases from './wordnessList.mjs'
-import RedundantPhrases from './RedundantPhrases.mjs'
+import redundantPhrases from './redundantPhrases.mjs'
 
 const winkNLP = require('wink-nlp')
 const model = require('wink-eng-lite-web-model')
@@ -16,7 +16,7 @@ const patterns = [
   { name: 'abusiveWords', patterns: abusiveWords() },
   { name: 'wordinessPhrases', patterns: wordinessPhrases() },
   { name: 'curlyApostrophes', patterns: ['[‘|’]'] },
-  { name: 'RedundantPhrases', patterns: RedundantPhrases() },
+  { name: 'RedundantPhrases', patterns: redundantPhrases() },
 ]
 
 nlp.learnCustomEntities(patterns)
@@ -82,20 +82,19 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
  */
 module.exports.checkFirstWordOfSentence = () => {
   if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
+    let count = 0;
     doc.sentences().each((sentence) => {
       var firstWord = sentence
         .tokens()
         .filter((word) => word.out(its.type) === 'word')
         .itemAt(0)
       // console.log(firstWord.out(its.value));
-      if (
-        firstWord.out(its.case) !== 'titleCase' &&
-        !(
-          firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1
-        )
-      )
+      if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1)) {
         firstWord.markup('<mark class="checkFirstWordOfSentence" >', '</mark>')
+        count+=1;
+      }
     })
+    if (count > 0) logs.push(count + ' first words have incorrect grammar!')
   }
 }
 
@@ -108,11 +107,12 @@ module.exports.checkUseOfAdverbs = () => {
   const adverbSentence = doc
     .customEntities()
     .filter((sentence) => sentence.out(its.type) === 'adverbSentences');
-  // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>'));
-  // This is when you want to mark the whole sentence, instead of individual adverbs
+  // adverbSentence.each((e) => e.parentSentence().markup('<mark style="background-color: #F6D167">', '</mark>')); - This is when you want to mark the whole sentence, instead of individual adverbs
   adverbSentence.each((token) =>
     token.markup('<mark class="checkUseOfAdverbs" >', '</mark>')
   );
+  if (adverbSentence.out().length > 0)
+    logs.push(adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!')
 }
 
 /**
@@ -128,18 +128,24 @@ module.exports.checkUseOfPassiveVoice = () => {
 module.exports.checkUseOfLongSentence = () => {
   const sentences = doc.sentences();
   sentences.each((sentence) => {
+    let longSentence = 0
+    let veryLongSentence = 0
     let wordCount = sentence
       .tokens()
       .filter((token) => token.out(its.type) === 'word')
       .out().length
     if (wordCount >= 15 && wordCount < 21) {
+      longSentence+=1
       sentence.markup('<mark class="checkUseOfLongSentence-Long" >', '</mark>')
     } else if (wordCount >= 21) {
+      veryLongSentence += 1
       sentence.markup(
         '<mark class="checkUseOfLongSentence-VeryLong" >',
         '</mark>'
       )
     }
+    if (longSentence > 0) logs.push(longSentence + ' sentences are long - try to shorten the length!')
+    if (veryLongSentence > 0) logs.push(veryLongSentence + ' sentences are very long - try to shorten the length!')
   });
 }
 

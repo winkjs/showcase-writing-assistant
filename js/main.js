@@ -16,14 +16,6 @@ var $dropdown = $('.language')
 const applyHighlights = (text) => {
   grammar(text)
 
-  /**
-   * @author Ashvith
-   * So the one thing that I've noticed that that the order in which
-   * functions need to be executed is dependent. First, we must execute
-   * all customEntities()-based methods, and then the default collections
-   * like sentences(), tokens() or entities().
-   */
-
   // -- functions that highlight the mistakes in sentence structuring
   grammar.checkFirstWordOfSentence() // working
 
@@ -55,6 +47,7 @@ const handleInput = () => {
   var language = $dropdown.val()
   // console.log(language);
   var [highlightedText, log] = applyHighlights(text)
+  console.log(log);
   $highlights.html(highlightedText)
 }
 

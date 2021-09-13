@@ -7,7 +7,10 @@
 }
 
 .checkFirstWordOfSentence {
-  background-color: #f037a5;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #f037a5;
 }
 
 .checkUseOfAdverbs {
@@ -15,15 +18,24 @@
 }
 
 .checkUseOfLongSentence-Long {
-  background-color: #d4f3ef;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #00ffdd;
 }
 
 .checkUseOfLongSentence-VeryLong {
-  background-color: #c2f784;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #3700ff;
 }
 
 .checkDuplicateWords {
-  background-color: #2b0668;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #ffbaba;
 }
 
 .avoidAbusiveWords {
@@ -51,13 +63,16 @@
 }
 
 .avoidStartingWithConjunctions {
-  background-color: #11a336;
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #d49fff;
 }
 
 .useConsistentApostrophe {
-  background-color: #a0937d;
+  background-color: #a59b89;
 }
 
 .avoidRedundantConstruct {
-  background-color: #bd0a6c;
+  background-color: #b9ff68;
 }

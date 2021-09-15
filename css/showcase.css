@@ -64,7 +64,7 @@ body {
 .backdrop,
 textarea {
   width: 70vw;
-  height: 65vh;
+  height: 75vh;
   float: left;
 }
 
@@ -78,8 +78,18 @@ textarea {
 .container {
   display: block;
   margin: 0 auto;
-  transform: translateZ(0);
   -webkit-text-size-adjust: none;
+}
+
+.container2 {
+  display: block;
+  margin: 0;
+  -webkit-text-size-adjust: none;
+  width: 25vw;
+  /* height: 65vh; */
+  float: right;
+  background-color: white;
+  border: 2px solid #685972;
 }
 
 .backdrop {
@@ -116,12 +126,6 @@ mark {
   border-radius: 3px;
   color: transparent;
   background-color: #b1d5e5;
-}
-
-mark2 {
-  border-radius: 3px;
-  color: transparent;
-  background-color: #e5b1b1;
 }
 
 button {

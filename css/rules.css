@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@700&display=swap');
+
 .checkIncorrectPunctuationSpacing {
-  background-color: #cf8700;
+  background-color: #d49fff;
 }
 
 .checkIncorrectContractions {
@@ -21,22 +23,22 @@
 }
 
 .checkUseOfLongSentence-Long {
-  background-color: #00ffdd;
+  background-color: #4dccbd;
 }
 
 .checkUseOfLongSentence-VeryLong {
-  background-color: #3700ff;
+  background-color: #5863f8;
 }
 
 .checkDuplicateWords {
   background-color: transparent;
   text-decoration: underline;
   text-decoration-thickness: 4px;
-  text-decoration-color: #ffbaba;
+  text-decoration-color: #71b405;
 }
 
 .avoidAbusiveWords {
-  background-color: #cbff5b;
+  background-color: #f34213;
 }
 
 .useConsistentSpellings {
@@ -44,11 +46,11 @@
 }
 
 .avoidConstructs {
-  background-color: #71b405;
+  background-color: #ffbaba;
 }
 
 .highlightInterjectionsWithoutPunctuations {
-  background-color: #a0937d;
+  background-color: #b1a694;
 }
 
 .highlightWordiness {
@@ -56,14 +58,14 @@
 }
 
 .highlightUseOfOxymoron {
-  background-color: #fff542;
+  background-color: #f7f06c;
 }
 
 .avoidStartingWithConjunctions {
   background-color: transparent;
   text-decoration: underline;
   text-decoration-thickness: 4px;
-  text-decoration-color: #d49fff;
+  text-decoration-color: #645dd7;
 }
 
 .useConsistentApostrophe {

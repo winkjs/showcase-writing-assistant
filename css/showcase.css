@@ -1,4 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Slab:wght@600&display=swap');
 
 *,
 *::before,
@@ -11,8 +13,13 @@ body {
   background-color: #282c34;
 }
 
+.navbar a.logo {
+  font-family: 'Aleo', serif;
+  font-weight: 700;
+  font-size: 30px;
+}
+
 .navbar {
-  border-top: 4px solid #6c307d;
   box-sizing: border-box;
   height: 64px;
   background-color: #222;
@@ -57,7 +64,10 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
   padding-left: 20px;
-  font-size: 14px;
+  font-size: 15px;
+  font-family: 'Aleo', serif;
+  font-weight: 700;
+  letter-spacing: 2px;
 }
 
 .container,
@@ -71,7 +81,8 @@ textarea {
 .highlights,
 textarea {
   padding: 10px;
-  font: 20px/28px 'Open Sans', sans-serif;
+  font: 20px/28px 'Aleo', serif;
+  font-weight: 400;
   letter-spacing: 1px;
 }
 
@@ -79,26 +90,29 @@ textarea {
   display: block;
   margin: 0 auto;
   -webkit-text-size-adjust: none;
+  border-radius: 7px;
 }
 
 .container2 {
   display: block;
-  margin: 0;
+  margin: 0 auto;
   -webkit-text-size-adjust: none;
-  width: 25vw;
-  /* height: 65vh; */
+  width: 24vw;
+  height: 75vh;
   float: right;
   background-color: white;
   border: 2px solid #685972;
+  border-radius: 7px;
 }
 
 .backdrop {
   position: absolute;
   z-index: 1;
-  border: 2px solid #685972;
+  border: 1px solid #685972;
   background-color: #fff;
   overflow: auto;
   pointer-events: none;
+  border-radius: 7px;
   transition: transform 1s;
 }
 
@@ -106,6 +120,7 @@ textarea {
   white-space: pre-wrap;
   word-wrap: break-word;
   color: transparent;
+  border-radius: 7px;
 }
 
 textarea {
@@ -114,7 +129,7 @@ textarea {
   z-index: 2;
   margin: 0;
   border: 2px solid #74637f;
-  border-radius: 0;
+  border-radius: 7px;
   color: #444;
   background-color: transparent;
   overflow: auto;
@@ -155,12 +170,24 @@ textarea:focus,
 button:focus {
   outline: none;
   box-shadow: 0 0 0 2px #c6aada;
+  border-radius: 7px;
 }
 
+.legend {
+  color: white;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-left: 20px;
+  font-size: 18px;
+  font-family: 'Aleo', serif;
+  font-weight: bold;
+  margin: 5px 0;
+}
 .footer {
   /* border-top: 4px solid #6c307d; */
   box-sizing: border-box;
-  height: 64px;
+  height: 60px;
   background-color: #222;
   position: fixed;
   bottom: 0;
@@ -169,6 +196,7 @@ button:focus {
   z-index: 1030;
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 .footer-header {
@@ -185,8 +213,16 @@ button:focus {
   line-height: 60px;
   margin-left: 0;
   text-decoration: none;
+  font-weight: 400;
+  font-size: 14.5px;
 }
-
+.footer div {
+  font-family: 'Aleo', serif;
+  font-weight: 300;
+  letter-spacing: 1.5px;
+  font-size: 14px;
+  margin-top: 5px;
+}
 .footer a.footer-brand {
   margin-left: 20px;
 }
@@ -204,4 +240,20 @@ button:focus {
   letter-spacing: 1px;
   /* padding-left: 20px; */
   font-size: 14px;
+}
+
+.container2 {
+  padding: 10px 15px;
+  background-color: #282c34;
+  color: white;
+}
+.container2 p {
+  font-family: 'Aleo', serif;
+  font-size: 15.1px;
+  color: white;
+  display: inline-block;
+  padding: 2px 5px 1px 5px;
+  text-align: center;
+  border-radius: 3px;
+  margin: 8px 1px;
 }

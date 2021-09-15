@@ -27,7 +27,7 @@ const applyHighlights = (text) => {
 
   // grammar.checkUseOfPassiceVoice();
   grammar.checkDuplicateWords()
-  
+
   // -- functions that emphasis grammar rules
   grammar.useConsistentApostrophe() // working
   grammar.avoidStartingWithConjunctions() // working
@@ -35,7 +35,7 @@ const applyHighlights = (text) => {
   grammar.checkIncorrectPunctuationSpacing() // working
   grammar.checkUseOfLongSentence() // working x 2
   grammar.highlightInterjectionsWithoutPunctuations() // working
-  
+
   grammar.avoidRedundantConstruct()
   return grammar.getTextAndLog()
 }
@@ -48,7 +48,7 @@ const handleInput = () => {
   var language = $dropdown.val()
   // console.log(language);
   var [highlightedText, log] = applyHighlights(text)
-  console.log(log);
+  console.log(log)
   $highlights.html(highlightedText)
 }
 

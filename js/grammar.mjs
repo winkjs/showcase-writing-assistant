@@ -46,7 +46,7 @@ module.exports.checkIncorrectContractions = () => {
     token.markup('<mark class="checkIncorrectContractions">', '</mark>')
   })
   if (contractionToken.out().length > 0) {
-    logs.push(contractionToken.out().length + ' contractions are incorrect!')
+    logs.push({'checkIncorrectContractions': contractionToken.out().length + ' contractions are incorrect!'})
   }
 }
 
@@ -68,7 +68,7 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
   })
 
   if (incorrectToken.out().length > 0)
-    logs.push(incorrectToken.out().length + ' punctuations are incorrect!')
+    logs.push({'checkIncorrectPunctuationSpacing':incorrectToken.out().length + ' punctuations are incorrect!'})
 }
 
 /**
@@ -89,7 +89,7 @@ module.exports.checkFirstWordOfSentence = () => {
     })
   }
   if (count > 0)
-    logs.push(count + ' first words have incorrect grammar!')
+    logs.push({'checkFirstWordOfSentence': count + ' first words have incorrect grammar!'})
 }
 
 /**
@@ -102,7 +102,7 @@ module.exports.checkUseOfAdverbs = () => {
     .filter((sentence) => sentence.out(its.type) === 'adverbSentences')
   adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs" >', '</mark>'))
   if (adverbSentence.out().length > 0)
-    logs.push(adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!')
+    logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!'})
 }
 
 /**
@@ -134,9 +134,9 @@ module.exports.checkUseOfLongSentence = () => {
       )
     }
     if (longSentence > 0)
-      logs.push(longSentence + ' sentences are long - try to shorten the length!')
+      logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
     if (veryLongSentence > 0)
-      logs.push(veryLongSentence + ' sentences are very long - try to shorten the length!')
+      logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are very long - try to shorten the length!'})
   })
 }
 
@@ -167,7 +167,7 @@ module.exports.checkDuplicateWords = () => {
       })
     })
     if (duplicateWord > 0)
-      logs.push(duplicateWord + ' words have duplicates!')
+      logs.push({'checkDuplicateWords': duplicateWord + ' words have duplicates!'})
   }
 }
 
@@ -184,7 +184,7 @@ module.exports.avoidAbusiveWords = () => {
       entity.markup('<mark class="avoidAbusiveWords" >', '</mark>')
     })
     if (count > 0)
-      logs.push(count + ' abusive words! Avoid them!')
+      logs.push({'avoidAbusiveWords': count + ' abusive words! Avoid them!'})
 }
 
 /**
@@ -206,7 +206,7 @@ module.exports.useConsistentApostrophe = () => {
       symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>')
     })
   if (count > 0)
-    logs.push(count + ' apostrophe not consistent! Use flat apostrophe only!')
+    logs.push({'useConsistentApostrophe': count + ' apostrophe not consistent! Use flat apostrophe only!'})
 }
 
 /**
@@ -222,7 +222,7 @@ module.exports.avoidRedundantConstruct = () => {
     entity.markup('<mark class="avoidRedundantConstruct">', '</mark>')
   })
   if (count > 0)
-    logs.push(count + ' redundant constructs! Not necessarily wrong, but avoid them!')
+    logs.push({'avoidRedundantConstruct': count + ' redundant constructs! Not necessarily wrong, but avoid them!'})
 }
 
 /**
@@ -252,7 +252,7 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
         })
   }
   if (count > 0)
-    logs.push(count + ' incorrect interjections without proper punctuations! Use the following - "!", ".", "," OR "?".')
+    logs.push({'highlightInterjectionsWithoutPunctuations': count + ' incorrect interjections without proper punctuations! Use the following - "!", ".", "," OR "?".'})
 }
 
 /**
@@ -268,7 +268,7 @@ module.exports.highlightWordiness = () => {
       entity.markup('<mark class="highlightWordiness">', '</mark>')
     })
   if (count > 0)  
-    logs.push(count + ' phrases have been found with wordiness. It is advisible to update them.')
+    logs.push({'highlightWordiness': count + ' phrases have been found with wordiness. It is advisible to update them.'})
 }
 
 /** 
@@ -283,7 +283,7 @@ module.exports.highlightUseOfOxymoron = () => {
       entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>')
     })
   if (count > 0)
-    logs.push(count + ' oxymorons detected! Careful while using them!')
+    logs.push({'highlightUseOfOxymoron': count + ' oxymorons detected! Careful while using them!'})
 }
 
 /**
@@ -310,5 +310,5 @@ module.exports.avoidStartingWithConjunctions = () => {
     })
   }
   if (count > 0)
-    logs.push(count + ' conjunctions! Avoid using them!')
+    logs.push({'avoidStartingWithConjunctions': count + ' conjunctions! Avoid using them!'})
 }

@@ -1,8 +1,8 @@
 var grammar = require('./grammar.mjs')
 var $container = $('#text-container')
-var $backdrop = $('#backdrop')
-var $highlights = $('#highlights')
-var $textArea = $('textarea')
+var $backdrop = $('.backdrop-wink')
+var $highlights = $('.highlights-wink')
+var $textArea = $('.textarea-wink')
 var $legendTableBody = $('#legend-body')
 // var $toggle = $('button')
 // var $dropdown = $('.language')
@@ -54,21 +54,21 @@ const handleInput = () => {
 }
 
 const highlightLegends = (log) => {
-  var appendHTML = ""
+  var appendHTML = ''
   const def = "No grammatical errors found- you're good to go!"
   const prefix = "<tr><td scope='col'>"
-  const suffix = "</td></tr>"
+  const suffix = '</td></tr>'
   if (log.length > 0) {
-    log.forEach(element => {
+    log.forEach((element) => {
       Object.keys(element).forEach((key) => {
-        appendHTML += prefix + 
-          "<div class=" + key + ">"+ element[key] + "</div>" + suffix
-      });
-    });
+        appendHTML +=
+          prefix + '<div class=' + key + '>' + element[key] + '</div>' + suffix
+      })
+    })
   } else {
     appendHTML = prefix + def + suffix
   }
-  $legendTableBody.html(appendHTML);
+  $legendTableBody.html(appendHTML)
 }
 
 /**

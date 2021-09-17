@@ -9,14 +9,14 @@
     <title>Grammar Showcase</title>
     <script src="js/jquery.min.js"></script>
     <script src="bootstrap-5.1.1-dist/js/bootstrap.js"></script>
-    <link rel="stylesheet" href="./css/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap-5.1.1-dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/rules.css">
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
+        <div class="container-fluid">
             <a class="navbar-brand fs-4" href="https://winkjs.org/">
                 <img src="https://winkjs.org/images/logo.svg" width=30>
                 wink
@@ -40,10 +40,9 @@
         </div>
     </nav>
 
-    <div class="container-fluid mt-3 mb-3" id="text-container">
+    <div class="container-fluid mt-5 mb-5" id="text-container">
         <div class="row">
-
-            <div class="col-xl-10">
+            <div class="col-md-7 col-lg-8 col-xl-9">
                 <div class="container-wink">
                     <div class="backdrop-wink">
                         <div class="highlights-wink"></div>
@@ -52,11 +51,11 @@
                 </div>
                 </div>
 
-            <div class="col-xl-2">
+            <div class="col-md-5 col-lg-4 col-xl-3">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Legend</th>
+                            <th scope="col">Legends</th>
                         </tr>
                     </thead>
                     <tbody id="legend-body">
@@ -69,9 +68,8 @@
     </div>
     
    
-
-    <nav class="navbar navbar-expand navbar-dark bg-dark text-white" style="position:absolute; width: 100vw; bottom:0px;">
-        <div class="container">
+    <nav class="navbar navbar-expand navbar-dark bg-dark text-white">
+        <div class="container-fluid">
             <div class="fs-6 navbar-brand">
                 &copy;<a class="text-white" href="http://graype.in">graype systems</a> pvt. ltd.
             </div>

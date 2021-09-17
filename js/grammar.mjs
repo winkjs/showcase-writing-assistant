@@ -116,10 +116,10 @@ module.exports.checkUseOfPassiveVoice = () => {
  * @description Marks long and very long sentences.
  */
 module.exports.checkUseOfLongSentence = () => {
+  let longSentence = 0
+  let veryLongSentence = 0
   const sentences = doc.sentences()
   sentences.each((sentence) => {
-    let longSentence = 0
-    let veryLongSentence = 0
     let wordCount = sentence.tokens()
       .filter((token) => token.out(its.type) === 'word')
       .out().length
@@ -133,11 +133,11 @@ module.exports.checkUseOfLongSentence = () => {
         '</mark>'
       )
     }
-    if (longSentence > 0)
-      logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
-    if (veryLongSentence > 0)
-      logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are very long - try to shorten the length!'})
   })
+  if (longSentence > 0)
+    logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
+  if (veryLongSentence > 0)
+    logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are very long - try to shorten the length!'})
 }
 
 /**

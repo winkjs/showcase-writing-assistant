@@ -3,11 +3,25 @@
 *::after {
   box-sizing: border-box;
 }
-.container-wink,
-.backdrop-wink,
-.textarea-wink {
-  width: 70vw;
-  height: 70vh;
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+nav,footer {
+  flex: none;
+}
+
+#text-container {
+  /* overflow-y: scroll; */
+  -webkit-overflow-scrolling: touch;
+  flex: auto;
 }
 
 .highlights-wink,
@@ -18,12 +32,16 @@
 }
 
 .container-wink {
-  display: block;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "overlap";
   margin: 0 auto;
+  height: 600px;
 }
 
 .backdrop-wink {
-  position: absolute;
+  grid-area: overlap;
   z-index: 1;
   border: 2px solid #685972;
   background-color: #fff;
@@ -38,8 +56,7 @@
 }
 
 .textarea-wink {
-  display: block;
-  position: absolute;
+  grid-area: overlap;
   z-index: 2;
   margin: 0;
   border: 2px solid #74637f;
@@ -47,6 +64,7 @@
   color: #444;
   background-color: transparent;
   resize: none;
+  height: 100%;
 }
 
 mark {
@@ -54,4 +72,5 @@ mark {
   color: transparent;
   background-color: #44555c;
   letter-spacing: 1px;
+  padding: 0px;
 }

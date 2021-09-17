@@ -50,6 +50,7 @@ const handleInput = () => {
   // console.log(language);
   var [highlightedText, log] = applyHighlights(text)
   $highlights.html(highlightedText)
+  console.log(log)
   highlightLegends(log)
 }
 

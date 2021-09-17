@@ -447,19 +447,18 @@ var handleInput = function handleInput() {
 
 var highlightLegends = function highlightLegends(log) {
   var appendHTML = "";
-  var def = "<tr><td scope='row'>No grammatical errors found- you're well to go!</td></tr>";
-  var prefix = "<tr><td scope='row'>";
+  var def = "No grammatical errors found- you're well to go!";
+  var prefix = "<tr><td scope='col'>";
   var suffix = "</td></tr>";
 
-  if (log.length) {
+  if (log.length > 0) {
     log.forEach(function (element) {
-      // console.log(Object.keys(element))
       Object.keys(element).forEach(function (key) {
         appendHTML += prefix + "<div class=" + key + ">" + element[key] + "</div>" + suffix;
       });
     });
   } else {
-    appendHTML = prefix + "<div class='key'>" + def + "</div>" + suffix;
+    appendHTML = prefix + def + suffix;
   }
 
   $legendTableBody.html(appendHTML);

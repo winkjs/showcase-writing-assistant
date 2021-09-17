@@ -55,10 +55,10 @@ const handleInput = () => {
 
 const highlightLegends = (log) => {
   var appendHTML = ""
-  const def = "<tr><td scope='row'>No grammatical errors found- you're well to go!</td></tr>"
-  const prefix = "<tr><td scope='row'>"
+  const def = "No grammatical errors found- you're good to go!"
+  const prefix = "<tr><td scope='col'>"
   const suffix = "</td></tr>"
-  if (log.length) {
+  if (log.length > 0) {
     log.forEach(element => {
       Object.keys(element).forEach((key) => {
         appendHTML += prefix + 
@@ -66,8 +66,7 @@ const highlightLegends = (log) => {
       });
     });
   } else {
-    appendHTML = prefix + 
-    "<div class='key'>"+ def + "</div>" + suffix
+    appendHTML = prefix + def + suffix
   }
   $legendTableBody.html(appendHTML);
 }

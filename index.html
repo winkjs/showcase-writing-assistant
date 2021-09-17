@@ -1,95 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="https://winkjs.org/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="rules/jquery.min.js"></script>
-    
-    <link rel="stylesheet" href="css/showcase.css">
+    <title>Grammar Showcase</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="bootstrap-5.1.1-dist/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="bootstrap-5.1.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="css/custom.css">
     <link rel="stylesheet" href="css/rules.css">
-
-      
-
 </head>
 
 <body>
-    <header>
-        <div class="navbar">
-            <div class="navbar-header">
-                <a href="https://winkjs.org/" title="wink" class="navbar-brand">
-                    <img src="https://winkjs.org/images/logo.svg">
-                    <a class="logo">wink</a>
-                </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fs-4" href="https://winkjs.org/">
+                <img src="https://winkjs.org/images/logo.svg" width=30>
+                wink
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="https://winkjs.org/packages.html"
+                            class="">Packages</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://winkjs.org/showcase.html"
+                            class="">Showcase</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://winkjs.org/blog.html" class="">Blog</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://github.com/winkjs">Github</a></li>
+                    <li class="nav-item"><a class="nav-link" href="https://winkjs.org/about.html" class="">About</a>
+                    </li>
+                </ul>
             </div>
-            <ul class="nav navbar-nav navbar-right collapse navbar-collapse" id="main-nav">
-                <li><a href="https://winkjs.org/packages.html" class="">Packages</a></li>
-                <li><a href="https://winkjs.org/showcase.html" class="">Showcase</a></li>
-                <li><a href="https://winkjs.org/blog.html" class="">Blog</a></li>
-                <li><a href="http://github.com/winkjs">Github</a></li>
-                <li><a href="https://winkjs.org/about.html" class="">About</a></li>
-            </ul>
         </div>
-    </header>
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="backdrop">
-            <div class="highlights"></div>
+    </nav>
+
+    <div class="container m-3" id="text-container">
+        <div class="row">
+            <div id="backdrop">
+                <div id="highlights">Demo</div>
+                <textarea id="text-style">Deoo</textarea>
+            </div>
         </div>
-        <textarea></textarea>
     </div>
-   <div class="container2">
-       <div class="legend">Legend</div>
-<p class="checkIncorrectPunctuationSpacing">Incorrect Spacing after punctuation</p>
-<p class="avoidConstructs">Avoid Constructs</p>
-<p class="checkUseOfAdverbs">Avoid use of Adverbs</p>
-<p class="checkIncorrectContractions">Incorrect Contractions</p>
-<p class="highlightUseOfOxymoron">Use of oxyMorons</p>
-<p class="checkUseOfLongSentence-Long">Avoid Use of Long Sentence</p>
-<p class="checkUseOfLongSentence-VeryLong">Avoid Use of Extremely Long Sentence</p>
-<p class="checkDuplicateWords">Avoid Duplicate Words</p>
-<p class="avoidAbusiveWords">Avoid Abusive Words</p>
-<!-- <p class="useConsistentSpellings"></p>v -->
-<p class="checkFirstWordOfSentence">Incorrect Casing</p>
-<p class="highlightInterjectionsWithoutPunctuations">Interjections without Punctuations</p>
-<p class="highlightWordiness">Avoid use of Wordiness</p>
+    </div>
+    
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Legend</th>
+                </tr>
+            </thead>
+            <tbody id="legend-body">
+                <!-- <tr>
+                    <td scope="row">lol</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </div>
 
-<p class="avoidRedundantConstruct">Avoid Redundant Constructs</p>
-<p class="avoidStartingWithConjunctions">Avoid starting with Conjunctions</p>
+    <!-- <div class="container2">
+        <div class="legend">Legend</div>
+        <p class="checkIncorrectPunctuationSpacing">Incorrect Spacing after punctuation</p>
+        <p class="avoidConstructs">Avoid Constructs</p>
+        <p class="checkUseOfAdverbs">Avoid use of Adverbs</p>
+        <p class="checkIncorrectContractions">Incorrect Contractions</p>
+        <p class="highlightUseOfOxymoron">Use of oxyMorons</p>
+        <p class="checkUseOfLongSentence-Long">Avoid Use of Long Sentence</p>
+        <p class="checkUseOfLongSentence-VeryLong">Avoid Use of Extremely Long Sentence</p>
+        <p class="checkDuplicateWords">Avoid Duplicate Words</p>
+        <p class="avoidAbusiveWords">Avoid Abusive Words</p>
+        <p class="useConsistentSpellings"></p>
+        <p class="checkFirstWordOfSentence">Incorrect Casing</p>
+        <p class="highlightInterjectionsWithoutPunctuations">Interjections without Punctuations</p>
+        <p class="highlightWordiness">Avoid use of Wordiness</p>
+        <p class="avoidRedundantConstruct">Avoid Redundant Constructs</p>
+        <p class="avoidStartingWithConjunctions">Avoid starting with Conjunctions</p>
+    </div> -->
 
-</div>
-    <br>
-  
-
-
-    <header>
-        <div class="footer">
-            <div style="margin-left: 20px; color: white;" >
-        
-            &copy; <a href="http://graype.in">graype systems</a> pvt. ltd.
-
+    <nav class="navbar navbar-expand navbar-dark bg-dark text-white">
+        <div class="container">
+            <div class="fs-6 navbar-brand">
+                &copy;<a class="text-white" href="http://graype.in">graype systems</a> pvt. ltd.
             </div>
-            <ul class="nav footer-nav footer-right collapse footer-collapse" id="main-nav">
-<li>
-    <a href="https://twitter.com/winkjs_org/">
-        <img src="https://winkjs.org/images/twitter.svg" style="width: 40px;height: 40px; margin-top: 10px;float: right;"alt="twitter" class="twitter">
-    </a>
-</li>             
-<li>
-    <a href="https://github.com/winkjs">
-        <img src="https://winkjs.org/images/github.svg" style="width: 35px;height: 35px;margin-top: 13px;"alt="github" class="github">
-    </a>
-</li>
-            </ul>
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="https://twitter.com/winkjs_org/">
+                    <img width=30 alt="Twitter" src="https://winkjs.org/images/twitter.svg">
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="https://github.com/winkjs">
+                    <img width=30 alt="Github" src="https://winkjs.org/images/github.svg">
+                </a>
+            </li>
+        </ul>
         </div>
-    </header>
-
-    <br>
-    <br>
+    </nav>
     <script src="bundle.js"></script>
 </body>
+
 </html>

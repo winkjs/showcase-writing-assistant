@@ -40,22 +40,24 @@
         </div>
     </nav>
 
-    <div class="container-fluid mt-5 mb-5" id="text-container">
+    <div class="container mt-5 mb-5" id="text-container">
         <div class="row">
+
             <div class="col-md-7 col-lg-8 col-xl-9">
                 <div class="container-wink">
                     <div class="backdrop-wink">
                         <div class="highlights-wink"></div>
                     </div>
                     <textarea class="textarea-wink">This demo shows how to highlight bits of text within a textarea. Alright, that's a lie. You can't actually render markup inside a textarea. However, you can fake it by carefully positioning a div behind the textarea and adding your highlight markup there. JavaScript takes care of syncing the content and scroll position from the textarea to the div, so everything lines up nicely. Hit the toggle button to peek behind the curtain. And feel free to edit this text. All capitalized words will be highlighted.</textarea>
+                    <button type="Toggle" class="fs-5 btn btn-primary mt-5 mb-5 pt-2 pb-2" id="toggle-button">Toggle Perspective</button>
                 </div>
-                </div>
+            </div>
 
             <div class="col-md-5 col-lg-4 col-xl-3">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">Legends</th>
+                            <th class="fs-4" scope="col">Legends</th>
                         </tr>
                     </thead>
                     <tbody id="legend-body">
@@ -66,25 +68,25 @@
         </div>
     </div>
     </div>
-    
-   
+
+
     <nav class="navbar navbar-expand navbar-dark bg-dark text-white">
         <div class="container-fluid">
             <div class="fs-6 navbar-brand">
                 &copy;<a class="text-white" href="http://graype.in">graype systems</a> pvt. ltd.
             </div>
-        <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link" href="https://twitter.com/winkjs_org/">
-                    <img width=30 alt="Twitter" src="https://winkjs.org/images/twitter.svg">
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="https://github.com/winkjs">
-                    <img width=30 alt="Github" src="https://winkjs.org/images/github.svg">
-                </a>
-            </li>
-        </ul>
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://twitter.com/winkjs_org/">
+                        <img width=30 alt="Twitter" src="https://winkjs.org/images/twitter.svg">
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://github.com/winkjs">
+                        <img width=30 alt="Github" src="https://winkjs.org/images/github.svg">
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
     <script src="bundle.js"></script>

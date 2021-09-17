@@ -121,7 +121,7 @@ module.exports.checkFirstWordOfSentence = function () {
 
       if (firstWord.out(its["case"]) !== 'titleCase' && !(firstWord.out(its["case"]) === 'upperCase' && firstWord.out().length <= 1)) {
         count += 1;
-        firstWord.markup('<mark class="checkFirstWordOfSentence" >', '</mark>');
+        firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>');
       }
     });
   }
@@ -142,7 +142,7 @@ module.exports.checkUseOfAdverbs = function () {
     return sentence.out(its.type) === 'adverbSentences';
   });
   adverbSentence.each(function (token) {
-    return token.markup('<mark class="checkUseOfAdverbs" >', '</mark>');
+    return token.markup('<mark class="checkUseOfAdverbs">', '</mark>');
   });
   if (adverbSentence.out().length > 0) logs.push({
     'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!'
@@ -171,10 +171,10 @@ module.exports.checkUseOfLongSentence = function () {
 
     if (wordCount >= 15 && wordCount < 21) {
       longSentence += 1;
-      sentence.markup('<mark class="checkUseOfLongSentence-Long" >', '</mark>');
+      sentence.markup('<mark class="checkUseOfLongSentence-Long">', '</mark>');
     } else if (wordCount >= 21) {
       veryLongSentence += 1;
-      sentence.markup('<mark class="checkUseOfLongSentence-VeryLong" >', '</mark>');
+      sentence.markup('<mark class="checkUseOfLongSentence-VeryLong">', '</mark>');
     }
   });
   if (longSentence > 0) logs.push({
@@ -204,7 +204,7 @@ module.exports.checkDuplicateWords = function () {
       eachSentence.each(function (token, index) {
         if (index < sentence.tokens().length() - 2 && token.out() === eachSentence.itemAt(index + 1).out()) {
           duplicateWord += 1;
-          token.markup('<mark class="checkDuplicateWords" >', '</mark>');
+          token.markup('<mark class="checkDuplicateWords">', '</mark>');
           eachSentence.itemAt(index + 1).markup('<mark class="checkDuplicateWords">', '</mark>');
         }
       });
@@ -225,7 +225,7 @@ module.exports.avoidAbusiveWords = function () {
     return entity.out(its.type) === 'abusiveWords';
   }).each(function (entity) {
     count += 1;
-    entity.markup('<mark class="avoidAbusiveWords" >', '</mark>');
+    entity.markup('<mark class="avoidAbusiveWords">', '</mark>');
   });
   if (count > 0) logs.push({
     'avoidAbusiveWords': count + ' abusive words! Avoid them!'
@@ -249,7 +249,7 @@ module.exports.useConsistentApostrophe = function () {
     return entity.out(its.type) === 'curlyApostrophes';
   }).each(function (symbol) {
     count += 1;
-    symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>');
+    symbol.markup('<mark class="useConsistentApostrophe">', '</mark>');
   });
   if (count > 0) logs.push({
     'useConsistentApostrophe': count + ' apostrophe not consistent! Use flat apostrophe only!'
@@ -290,7 +290,7 @@ module.exports.highlightInterjectionsWithoutPunctuations = function () {
       return token.out(its.pos) === 'INTJ' && !(tokens.itemAt(index + 1).out() === '?' || tokens.itemAt(index + 1).out() === '!' || tokens.itemAt(index + 1).out() === ',' || tokens.itemAt(index + 1).out() === '.');
     }).each(function (token) {
       count += 1;
-      token.markup('<mark class="highlightInterjectionsWithoutPunctuations" >', '</mark>');
+      token.markup('<mark class="highlightInterjectionsWithoutPunctuations">', '</mark>');
     });
   }
 
@@ -326,7 +326,7 @@ module.exports.highlightUseOfOxymoron = function () {
     return e.out(its.type) === 'oxymoron';
   }).each(function (entity) {
     count += 1;
-    entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>');
+    entity.markup('<mark class="highlightUseOfOxymoron">', '</mark>');
   });
   if (count > 0) logs.push({
     'highlightUseOfOxymoron': count + ' oxymorons detected! Careful while using them!'
@@ -351,7 +351,7 @@ module.exports.avoidStartingWithConjunctions = function () {
 
         if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {
           count += 1;
-          firstWord.markup('<mark class="avoidStartingWithConjunctions" >', '</mark>');
+          firstWord.markup('<mark class="avoidStartingWithConjunctions">', '</mark>');
         }
       }
     });
@@ -383,8 +383,8 @@ var $container = $('#text-container');
 var $backdrop = $('.backdrop-wink');
 var $highlights = $('.highlights-wink');
 var $textArea = $('.textarea-wink');
-var $legendTableBody = $('#legend-body'); // var $toggle = $('button')
-// var $dropdown = $('.language')
+var $legendTableBody = $('#legend-body');
+var $toggle = $('#toggle-button'); // var $dropdown = $('.language')
 
 /**
  * @description Applies all the required highlights layer-by-layer.
@@ -440,8 +440,8 @@ var handleInput = function handleInput() {
       highlightedText = _applyHighlights2[0],
       log = _applyHighlights2[1];
 
-  $highlights.html(highlightedText);
-  console.log(log);
+  $highlights.html(highlightedText); // console.log(log)
+
   highlightLegends(log);
 };
 
@@ -454,7 +454,7 @@ var highlightLegends = function highlightLegends(log) {
   if (log.length > 0) {
     log.forEach(function (element) {
       Object.keys(element).forEach(function (key) {
-        appendHTML += prefix + '<div class=' + key + '>' + element[key] + '</div>' + suffix;
+        appendHTML += prefix + '<div class="fs-5 ' + key + '">' + element[key] + '</div>' + suffix;
       });
     });
   } else {
@@ -483,10 +483,10 @@ var bindEvents = function bindEvents() {
   $textArea.on({
     input: handleInput,
     scroll: handleScroll
-  }); // $toggle.on('click', function () {
-  //   $container.toggleClass('perspective')
-  // })
-  // console.log($dropdown.val());
+  });
+  $toggle.on('click', function () {
+    $container.toggleClass('perspective');
+  }); // console.log($dropdown.val());
   // $dropdown.on({
   //   change: handleInput,
   // })

@@ -84,7 +84,7 @@ module.exports.checkFirstWordOfSentence = () => {
         .itemAt(0)
       if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1)) {
         count += 1
-        firstWord.markup('<mark class="checkFirstWordOfSentence" >', '</mark>')
+        firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>')
       }
     })
   }
@@ -100,7 +100,7 @@ module.exports.checkFirstWordOfSentence = () => {
 module.exports.checkUseOfAdverbs = () => {
   const adverbSentence = doc.customEntities()
     .filter((sentence) => sentence.out(its.type) === 'adverbSentences')
-  adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs" >', '</mark>'))
+  adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs">', '</mark>'))
   if (adverbSentence.out().length > 0)
     logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!'})
 }
@@ -125,11 +125,11 @@ module.exports.checkUseOfLongSentence = () => {
       .out().length
     if (wordCount >= 15 && wordCount < 21) {
       longSentence+=1
-      sentence.markup('<mark class="checkUseOfLongSentence-Long" >', '</mark>')
+      sentence.markup('<mark class="checkUseOfLongSentence-Long">', '</mark>')
     } else if (wordCount >= 21) {
-      veryLongSentence += 1
+      veryLongSentence+=1
       sentence.markup(
-        '<mark class="checkUseOfLongSentence-VeryLong" >',
+        '<mark class="checkUseOfLongSentence-VeryLong">',
         '</mark>'
       )
     }
@@ -160,7 +160,7 @@ module.exports.checkDuplicateWords = () => {
           token.out() === eachSentence.itemAt(index + 1).out()
         ) {
           duplicateWord += 1
-          token.markup('<mark class="checkDuplicateWords" >', '</mark>')
+          token.markup('<mark class="checkDuplicateWords">', '</mark>')
           eachSentence.itemAt(index + 1)
             .markup('<mark class="checkDuplicateWords">', '</mark>')
         }
@@ -181,7 +181,7 @@ module.exports.avoidAbusiveWords = () => {
     .filter((entity) => entity.out(its.type) === 'abusiveWords')
     .each((entity) => {
       count+=1
-      entity.markup('<mark class="avoidAbusiveWords" >', '</mark>')
+      entity.markup('<mark class="avoidAbusiveWords">', '</mark>')
     })
     if (count > 0)
       logs.push({'avoidAbusiveWords': count + ' abusive words! Avoid them!'})
@@ -203,7 +203,7 @@ module.exports.useConsistentApostrophe = () => {
     .filter((entity) => entity.out(its.type) === 'curlyApostrophes')
     .each((symbol) => {
       count +=1
-      symbol.markup('<mark class="useConsistentApostrophe" >', '</mark>')
+      symbol.markup('<mark class="useConsistentApostrophe">', '</mark>')
     })
   if (count > 0)
     logs.push({'useConsistentApostrophe': count + ' apostrophe not consistent! Use flat apostrophe only!'})
@@ -246,7 +246,7 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
       .each((token) => {
         count+=1
         token.markup(
-          '<mark class="highlightInterjectionsWithoutPunctuations" >',
+          '<mark class="highlightInterjectionsWithoutPunctuations">',
           '</mark>'
         )
         })
@@ -280,7 +280,7 @@ module.exports.highlightUseOfOxymoron = () => {
     .filter((e) => e.out(its.type) === 'oxymoron')
     .each((entity) => {
       count += 1
-      entity.markup('<mark class="highlightUseOfOxymoron" >', '</mark>')
+      entity.markup('<mark class="highlightUseOfOxymoron">', '</mark>')
     })
   if (count > 0)
     logs.push({'highlightUseOfOxymoron': count + ' oxymorons detected! Careful while using them!'})
@@ -302,7 +302,7 @@ module.exports.avoidStartingWithConjunctions = () => {
           .itemAt(0)
         if (firstWord.out(its.pos) === 'SCONJ' || firstWord.out(its.pos) === 'CCONJ') {
           count += 1
-          firstWord.markup('<mark class="avoidStartingWithConjunctions" >',
+          firstWord.markup('<mark class="avoidStartingWithConjunctions">',
             '</mark>'
           )
         }

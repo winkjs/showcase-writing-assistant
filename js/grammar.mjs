@@ -29,6 +29,10 @@ module.exports.getTextAndLog = () => {
   return [doc.out(its.markedUpText), logs]
 }
 
+const stringIsNotEmpty = () => {
+  return doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')
+}
+
 /**
  * @description Check for incorrect contractions.
  */
@@ -76,20 +80,20 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
  */
 module.exports.checkFirstWordOfSentence = () => {
   let count = 0
-  if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
+  if (stringIsNotEmpty) {
     doc.sentences().each((sentence) => {
-      var firstWord = sentence
-        .tokens()
-        .filter((word) => word.out(its.type) === 'word')
-        .itemAt(0)
-      if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1)) {
-        count += 1
-        firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>')
+      var tokens = sentence.tokens()
+      if (tokens.out().length > 0 && tokens.itemAt(0).out(its.type) === 'word') {
+        var firstWord = tokens.itemAt(0)
+        if (firstWord.out(its.case) !== 'titleCase' && !(firstWord.out(its.case) === 'upperCase' && firstWord.out().length <= 1)) {
+          count += 1
+          firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>')
+        }
       }
     })
   }
   if (count > 0)
-    logs.push({'checkFirstWordOfSentence': count + ' first words have incorrect grammar!'})
+    logs.push({'checkFirstWordOfSentence': count + ' starting words may have incorrect grammar!'})
 }
 
 /**
@@ -102,7 +106,7 @@ module.exports.checkUseOfAdverbs = () => {
     .filter((sentence) => sentence.out(its.type) === 'adverbSentences')
   adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs">', '</mark>'))
   if (adverbSentence.out().length > 0)
-    logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!'})
+    logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs found - be careful not to overuse them!'})
 }
 
 /**
@@ -137,7 +141,7 @@ module.exports.checkUseOfLongSentence = () => {
   if (longSentence > 0)
     logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
   if (veryLongSentence > 0)
-    logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are very long - try to shorten the length!'})
+    logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are extremely long - try to shorten the length!'})
 }
 
 /**
@@ -291,7 +295,7 @@ module.exports.highlightUseOfOxymoron = () => {
  */
 module.exports.avoidStartingWithConjunctions = () => {
   let count = 0
-  if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
+  if (stringIsNotEmpty) {
     doc.sentences().each((sentence) => {
       if (sentence.out() !== ('%c<empty string>', '', 'font-style: italic;', '') //&&
         //sentence.tokens().itemAt(0).out(its.type) === 'word'

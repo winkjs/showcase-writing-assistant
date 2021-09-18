@@ -4,7 +4,7 @@ var $backdrop = $('.backdrop-wink')
 var $highlights = $('.highlights-wink')
 var $textArea = $('.textarea-wink')
 var $legendTableBody = $('#legend-body')
-// var $toggle = $('button')
+var $toggle = $('#toggle-button')
 // var $dropdown = $('.language')
 
 /**
@@ -50,6 +50,7 @@ const handleInput = () => {
   // console.log(language);
   var [highlightedText, log] = applyHighlights(text)
   $highlights.html(highlightedText)
+  // console.log(log)
   highlightLegends(log)
 }
 
@@ -62,7 +63,7 @@ const highlightLegends = (log) => {
     log.forEach((element) => {
       Object.keys(element).forEach((key) => {
         appendHTML +=
-          prefix + '<div class=' + key + '>' + element[key] + '</div>' + suffix
+          prefix + '<div class="fs-5 ' + key + '">' + element[key] + '</div>' + suffix
       })
     })
   } else {
@@ -90,9 +91,10 @@ const bindEvents = () => {
     scroll: handleScroll,
   })
 
-  // $toggle.on('click', function () {
-  //   $container.toggleClass('perspective')
-  // })
+  $toggle.on('click', function () {
+    $container.toggleClass('perspective')
+  })
+
   // console.log($dropdown.val());
   // $dropdown.on({
   //   change: handleInput,

@@ -60,6 +60,10 @@ module.exports = function (text) {
 module.exports.getTextAndLog = function () {
   return [doc.out(its.markedUpText), logs];
 };
+
+var stringIsNotEmpty = function stringIsNotEmpty() {
+  return doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '');
+};
 /**
  * @description Check for incorrect contractions.
  */
@@ -113,21 +117,23 @@ module.exports.checkIncorrectPunctuationSpacing = function () {
 module.exports.checkFirstWordOfSentence = function () {
   var count = 0;
 
-  if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
+  if (stringIsNotEmpty) {
     doc.sentences().each(function (sentence) {
-      var firstWord = sentence.tokens().filter(function (word) {
-        return word.out(its.type) === 'word';
-      }).itemAt(0);
+      var tokens = sentence.tokens();
 
-      if (firstWord.out(its["case"]) !== 'titleCase' && !(firstWord.out(its["case"]) === 'upperCase' && firstWord.out().length <= 1)) {
-        count += 1;
-        firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>');
+      if (tokens.out().length > 0 && tokens.itemAt(0).out(its.type) === 'word') {
+        var firstWord = tokens.itemAt(0);
+
+        if (firstWord.out(its["case"]) !== 'titleCase' && !(firstWord.out(its["case"]) === 'upperCase' && firstWord.out().length <= 1)) {
+          count += 1;
+          firstWord.markup('<mark class="checkFirstWordOfSentence">', '</mark>');
+        }
       }
     });
   }
 
   if (count > 0) logs.push({
-    'checkFirstWordOfSentence': count + ' first words have incorrect grammar!'
+    'checkFirstWordOfSentence': count + ' starting words may have incorrect grammar!'
   });
 };
 /**
@@ -145,7 +151,7 @@ module.exports.checkUseOfAdverbs = function () {
     return token.markup('<mark class="checkUseOfAdverbs">', '</mark>');
   });
   if (adverbSentence.out().length > 0) logs.push({
-    'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs are in the sentences - not a grammatical error, but be careful not to overuse them!'
+    'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs found - be careful not to overuse them!'
   });
 };
 /**
@@ -181,7 +187,7 @@ module.exports.checkUseOfLongSentence = function () {
     'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'
   });
   if (veryLongSentence > 0) logs.push({
-    'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are very long - try to shorten the length!'
+    'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are extremely long - try to shorten the length!'
   });
 };
 /**
@@ -340,7 +346,7 @@ module.exports.highlightUseOfOxymoron = function () {
 module.exports.avoidStartingWithConjunctions = function () {
   var count = 0;
 
-  if (doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')) {
+  if (stringIsNotEmpty) {
     doc.sentences().each(function (sentence) {
       if (sentence.out() !== ('%c<empty string>', '', 'font-style: italic;', '') //&&
       //sentence.tokens().itemAt(0).out(its.type) === 'word'
@@ -412,8 +418,7 @@ var applyHighlights = function applyHighlights(text) {
   grammar.checkDuplicateWords(); // -- functions that emphasis grammar rules
 
   grammar.useConsistentApostrophe(); // working
-
-  grammar.avoidStartingWithConjunctions(); // working
+  // grammar.avoidStartingWithConjunctions() // working
 
   grammar.checkIncorrectContractions(); // working
 
@@ -432,7 +437,8 @@ var applyHighlights = function applyHighlights(text) {
 
 
 var handleInput = function handleInput() {
-  var text = $textArea.val(); // var language = $dropdown.val()
+  var text = $textArea.val();
+  var preserveSpace = text.split(text.trim()); // var language = $dropdown.val()
   // console.log(language);
 
   var _applyHighlights = applyHighlights(text),
@@ -440,8 +446,7 @@ var handleInput = function handleInput() {
       highlightedText = _applyHighlights2[0],
       log = _applyHighlights2[1];
 
-  $highlights.html(highlightedText); // console.log(log)
-
+  $highlights.html(preserveSpace[0] + highlightedText + preserveSpace[1] + "\n");
   highlightLegends(log);
 };
 

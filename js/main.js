@@ -31,7 +31,7 @@ const applyHighlights = (text) => {
 
   // -- functions that emphasis grammar rules
   grammar.useConsistentApostrophe() // working
-  grammar.avoidStartingWithConjunctions() // working
+  // grammar.avoidStartingWithConjunctions() // working
   grammar.checkIncorrectContractions() // working
   grammar.checkIncorrectPunctuationSpacing() // working
   grammar.checkUseOfLongSentence() // working x 2
@@ -46,11 +46,11 @@ const applyHighlights = (text) => {
  */
 const handleInput = () => {
   var text = $textArea.val()
+  var preserveSpace = text.split(text.trim())
   // var language = $dropdown.val()
   // console.log(language);
   var [highlightedText, log] = applyHighlights(text)
-  $highlights.html(highlightedText)
-  // console.log(log)
+  $highlights.html(preserveSpace[0] + highlightedText + preserveSpace[1] + "\n")
   highlightLegends(log)
 }
 

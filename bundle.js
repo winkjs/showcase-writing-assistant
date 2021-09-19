@@ -61,8 +61,8 @@ module.exports.getTextAndLog = function () {
   return [doc.out(its.markedUpText), logs];
 };
 
-var stringIsNotEmpty = function stringIsNotEmpty() {
-  return doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '');
+var stringIsNotEmpty = function stringIsNotEmpty(collection) {
+  return collection.out() !== ('%c<empty string>', '', 'font-style: italic;', '');
 };
 /**
  * @description Check for incorrect contractions.
@@ -100,7 +100,7 @@ module.exports.checkIncorrectPunctuationSpacing = function () {
     return token.out(its.pos) === 'PUNCT';
   });
   var incorrectToken = filteredTokens.filter(function (token, index) {
-    return index < filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '' && tokens.itemAt(token.index() + 1).out(its.precedingSpaces) === ' ') || index === filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '');
+    return index < filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '' && (tokens.itemAt(token.index() + 1).out(its.precedingSpaces) === ' ' || tokens.itemAt(token.index() + 1).out(its.POS) !== 'PUNCT')) || index === filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '');
   });
   incorrectToken.each(function (token) {
     token.markup('<mark class="checkIncorrectPunctuationSpacing" >', '</mark>');
@@ -117,7 +117,7 @@ module.exports.checkIncorrectPunctuationSpacing = function () {
 module.exports.checkFirstWordOfSentence = function () {
   var count = 0;
 
-  if (stringIsNotEmpty) {
+  if (stringIsNotEmpty(doc)) {
     doc.sentences().each(function (sentence) {
       var tokens = sentence.tokens();
 
@@ -346,11 +346,9 @@ module.exports.highlightUseOfOxymoron = function () {
 module.exports.avoidStartingWithConjunctions = function () {
   var count = 0;
 
-  if (stringIsNotEmpty) {
+  if (stringIsNotEmpty(doc)) {
     doc.sentences().each(function (sentence) {
-      if (sentence.out() !== ('%c<empty string>', '', 'font-style: italic;', '') //&&
-      //sentence.tokens().itemAt(0).out(its.type) === 'word'
-      ) {
+      if (stringIsNotEmpty(sentence) && sentence.tokens().itemAt(0).out(its.type) === 'word') {
         var firstWord = sentence.tokens().filter(function (word) {
           return word.out(its.type) === 'word';
         }).itemAt(0);
@@ -401,33 +399,21 @@ var $toggle = $('#toggle-button'); // var $dropdown = $('.language')
  */
 
 var applyHighlights = function applyHighlights(text) {
-  grammar(text); // -- functions that highlight the mistakes in sentence structuring
+  grammar(text);
+  grammar.checkFirstWordOfSentence();
+  grammar.checkUseOfAdverbs();
+  grammar.avoidAbusiveWords();
+  grammar.highlightUseOfOxymoron();
+  grammar.highlightWordiness(); // grammar.checkUseOfPassiceVoice();
+  // grammar.useConsistentSpellings();
 
-  grammar.checkFirstWordOfSentence(); // working
-  // -- functions that highlight mistakes in parts of sentences
-
-  grammar.checkUseOfAdverbs(); // working
-
-  grammar.avoidAbusiveWords(); // working
-
-  grammar.highlightUseOfOxymoron(); // working
-
-  grammar.highlightWordiness(); // working
-  // grammar.checkUseOfPassiceVoice();
-
-  grammar.checkDuplicateWords(); // -- functions that emphasis grammar rules
-
-  grammar.useConsistentApostrophe(); // working
-  // grammar.avoidStartingWithConjunctions() // working
-
-  grammar.checkIncorrectContractions(); // working
-
-  grammar.checkIncorrectPunctuationSpacing(); // working
-
-  grammar.checkUseOfLongSentence(); // working x 2
-
-  grammar.highlightInterjectionsWithoutPunctuations(); // working
-
+  grammar.checkDuplicateWords();
+  grammar.useConsistentApostrophe();
+  grammar.avoidStartingWithConjunctions();
+  grammar.checkIncorrectContractions();
+  grammar.checkIncorrectPunctuationSpacing();
+  grammar.checkUseOfLongSentence();
+  grammar.highlightInterjectionsWithoutPunctuations();
   grammar.avoidRedundantConstruct();
   return grammar.getTextAndLog();
 };
@@ -459,7 +445,7 @@ var highlightLegends = function highlightLegends(log) {
   if (log.length > 0) {
     log.forEach(function (element) {
       Object.keys(element).forEach(function (key) {
-        appendHTML += prefix + '<div class="fs-5 ' + key + '">' + element[key] + '</div>' + suffix;
+        appendHTML += prefix + '<div class="fs-6 rounded ' + key + '">' + element[key] + '</div>' + suffix;
       });
     });
   } else {

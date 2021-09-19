@@ -44,11 +44,10 @@ nav,footer {
   grid-area: overlap;
   z-index: 1;
   border: 2px solid #685972;
-  background-color: #fff;
+  background-color: rgba(240, 240, 240, 0.6);
   overflow: auto;
   pointer-events: none;
   transition: transform 1s;
-  border-radius: 10px;
 }
 
 .highlights-wink {
@@ -62,13 +61,11 @@ nav,footer {
   z-index: 2;
   margin: 0;
   border: 2px solid #74637f;
-  border-radius: 0;
   color: #444;
   background-color: transparent;
   resize: none;
   height: 100%;
   transition: transform 1s;
-  border-radius: 10px;
 }
 
 mark {
@@ -80,9 +77,9 @@ mark {
 }
 
 .perspective .backdrop-wink {
-  transform: perspective(800px) translateX(-30px) rotateY(8deg) scale(0.85);
+  transform: perspective(800px) translateX(-20px) rotateY(8deg) scale(0.9);
 }
 
 .perspective .textarea-wink {
-  transform: perspective(800px) translateX(30px) rotateY(8deg) scale(0.9);
+  transform: perspective(800px) translateX(20px) rotateY(8deg) scale(0.95);
 }

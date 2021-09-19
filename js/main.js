@@ -17,25 +17,23 @@ var $toggle = $('#toggle-button')
 const applyHighlights = (text) => {
   grammar(text)
 
-  // -- functions that highlight the mistakes in sentence structuring
-  grammar.checkFirstWordOfSentence() // working
+  grammar.checkFirstWordOfSentence()
 
-  // -- functions that highlight mistakes in parts of sentences
-  grammar.checkUseOfAdverbs() // working
-  grammar.avoidAbusiveWords() // working
-  grammar.highlightUseOfOxymoron() // working
-  grammar.highlightWordiness() // working
+  grammar.checkUseOfAdverbs()
+  grammar.avoidAbusiveWords()
+  grammar.highlightUseOfOxymoron()
+  grammar.highlightWordiness()
 
   // grammar.checkUseOfPassiceVoice();
+  // grammar.useConsistentSpellings();
   grammar.checkDuplicateWords()
 
-  // -- functions that emphasis grammar rules
-  grammar.useConsistentApostrophe() // working
-  // grammar.avoidStartingWithConjunctions() // working
-  grammar.checkIncorrectContractions() // working
-  grammar.checkIncorrectPunctuationSpacing() // working
-  grammar.checkUseOfLongSentence() // working x 2
-  grammar.highlightInterjectionsWithoutPunctuations() // working
+  grammar.useConsistentApostrophe()
+  grammar.avoidStartingWithConjunctions()
+  grammar.checkIncorrectContractions()
+  grammar.checkIncorrectPunctuationSpacing()
+  grammar.checkUseOfLongSentence()
+  grammar.highlightInterjectionsWithoutPunctuations()
 
   grammar.avoidRedundantConstruct()
   return grammar.getTextAndLog()
@@ -63,7 +61,7 @@ const highlightLegends = (log) => {
     log.forEach((element) => {
       Object.keys(element).forEach((key) => {
         appendHTML +=
-          prefix + '<div class="fs-5 ' + key + '">' + element[key] + '</div>' + suffix
+          prefix + '<div class="fs-6 rounded ' + key + '">' + element[key] + '</div>' + suffix
       })
     })
   } else {

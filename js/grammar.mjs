@@ -29,8 +29,8 @@ module.exports.getTextAndLog = () => {
   return [doc.out(its.markedUpText), logs]
 }
 
-const stringIsNotEmpty = () => {
-  return doc.out() !== ('%c<empty string>', '', 'font-style: italic;', '')
+const stringIsNotEmpty = (collection) => {
+  return collection.out() !== ('%c<empty string>', '', 'font-style: italic;', '')
 }
 
 /**
@@ -63,10 +63,10 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
   const filteredTokens = tokens
     .filter((token) => token.out(its.pos) === 'PUNCT')
   const incorrectToken = filteredTokens.filter((token, index) => 
-      (index < filteredTokens.out().length - 1 && (!(token.out(its.precedingSpaces) === '' && 
-      tokens.itemAt(token.index() + 1).out(its.precedingSpaces) === ' '))) ||
-      (index === filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '' )) 
-    )
+      (index < filteredTokens.out().length - 1 && 
+        (!(token.out(its.precedingSpaces) === '' && (tokens.itemAt(token.index() + 1).out(its.precedingSpaces) === ' ' || tokens.itemAt(token.index() + 1).out(its.POS) !== 'PUNCT') ))
+      ) 
+      || (index === filteredTokens.out().length - 1 && !(token.out(its.precedingSpaces) === '' )))
   incorrectToken.each((token) => {
     token.markup('<mark class="checkIncorrectPunctuationSpacing" >', '</mark>')
   })
@@ -80,7 +80,7 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
  */
 module.exports.checkFirstWordOfSentence = () => {
   let count = 0
-  if (stringIsNotEmpty) {
+  if (stringIsNotEmpty(doc)) {
     doc.sentences().each((sentence) => {
       var tokens = sentence.tokens()
       if (tokens.out().length > 0 && tokens.itemAt(0).out(its.type) === 'word') {
@@ -295,10 +295,10 @@ module.exports.highlightUseOfOxymoron = () => {
  */
 module.exports.avoidStartingWithConjunctions = () => {
   let count = 0
-  if (stringIsNotEmpty) {
+  if (stringIsNotEmpty(doc)) {
     doc.sentences().each((sentence) => {
-      if (sentence.out() !== ('%c<empty string>', '', 'font-style: italic;', '') //&&
-        //sentence.tokens().itemAt(0).out(its.type) === 'word'
+      if (stringIsNotEmpty(sentence) &&
+        sentence.tokens().itemAt(0).out(its.type) === 'word'
       ) {
         var firstWord = sentence
           .tokens()

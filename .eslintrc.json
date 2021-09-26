@@ -2,7 +2,8 @@
     "env": {
         "node": true,
         "mocha": true,
-        "es6": true
+        "es6": true,
+        "jquery": true
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -69,19 +70,19 @@
         "line-comment-position": "off",
         "linebreak-style": [
             "error",
-            "unix"
+            "windows"
         ],
         "lines-around-comment": "error",
         "lines-around-directive": "error",
         "max-depth": "error",
         "max-len": "off",
         "max-lines": [
-          "error",
-          {
-            "max": 900,
-            "skipBlankLines": true,
-            "skipComments": true
-          }
+            "error",
+            {
+                "max": 900,
+                "skipBlankLines": true,
+                "skipComments": true
+            }
         ],
         "max-nested-callbacks": "error",
         "max-params": "off",

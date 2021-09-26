@@ -4,7 +4,7 @@
 
 Before building, make sure that all the dependencies are installed:
 1. NodeJS
-2. npm install
+2. NPM
 3. live-server (`npm install live-server`)
 4. browserify (`npm install browserify`)
 

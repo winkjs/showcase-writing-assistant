@@ -1,0 +1,12 @@
+test
+benchmark
+docs
+sourcedocs
+.eslintrc.json
+.jshintrc
+.travis.yml
+
+# Generic
+.node_repl_history
+.npm
+coverage

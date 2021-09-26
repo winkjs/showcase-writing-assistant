@@ -1,6 +1,6 @@
 {
   "name": "showcase-writing-assistant",
-  "version": "0.9",
+  "version": "0.9.0",
   "description": "English language writing assistant",
   "keywords": [
     "NLP",
@@ -10,7 +10,7 @@
     "winkNLP",
     "wink"
   ],
-  "main": "src/wink-nlp.js",
+  "main": "./src/main.js",
   "scripts": {
     "pretest": "npm run lint",
     "test": "nyc --reporter=html --reporter=text mocha ./test/",
@@ -33,5 +33,26 @@
     "eslint": "^7.32.0",
     "mocha": "^9.1.2",
     "nyc": "^15.1.0"
+  },
+  "dependencies": {
+    "@babel/core": "^7.15.0",
+    "babel-core": "^6.26.3",
+    "babelify": "^10.0.0",
+    "browserify": "^17.0.0",
+    "request": "^2.88.2",
+    "wink-eng-lite-web-model": "^1.2.1",
+    "wink-nlp": "^1.7.2"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "presets": [
+            "@babel/preset-env"
+          ]
+        }
+      ]
+    ]
   }
 }

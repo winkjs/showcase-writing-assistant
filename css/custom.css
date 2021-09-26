@@ -1,0 +1,85 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+nav,footer {
+  flex: none;
+}
+
+#text-container {
+  /* overflow-y: scroll; */
+  -webkit-overflow-scrolling: touch;
+  flex: auto;
+}
+
+.highlights-wink,
+.textarea-wink {
+  padding: 10px;
+  font: 20px/28px 'Open Sans', sans-serif;
+  letter-spacing: 1px;
+}
+
+.container-wink {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "overlap";
+  margin: 0 auto;
+  height: 600px;
+}
+
+.backdrop-wink {
+  grid-area: overlap;
+  z-index: 1;
+  border: 2px solid #685972;
+  background-color: rgba(240, 240, 240, 0.6);
+  overflow: auto;
+  pointer-events: none;
+  transition: transform 1s;
+}
+
+.highlights-wink {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  color: transparent;
+}
+
+.textarea-wink {
+  grid-area: overlap;
+  z-index: 2;
+  margin: 0;
+  border: 2px solid #74637f;
+  color: #444;
+  background-color: transparent;
+  resize: none;
+  height: 100%;
+  transition: transform 1s;
+}
+
+mark {
+  border-radius: 3px;
+  color: transparent;
+  background-color: #44555c;
+  letter-spacing: 1px;
+  padding: 0px;
+}
+
+.perspective .backdrop-wink {
+  transform: perspective(800px) translateX(-20px) rotateY(8deg) scale(0.9);
+}
+
+.perspective .textarea-wink {
+  transform: perspective(800px) translateX(20px) rotateY(8deg) scale(0.95);
+}

@@ -1,0 +1,37 @@
+{
+  "name": "showcase-writing-assistant",
+  "version": "0.9",
+  "description": "English language writing assistant",
+  "keywords": [
+    "NLP",
+    "grammar",
+    "language",
+    "english",
+    "winkNLP",
+    "wink"
+  ],
+  "main": "src/wink-nlp.js",
+  "scripts": {
+    "pretest": "npm run lint",
+    "test": "nyc --reporter=html --reporter=text mocha ./test/",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "lint": "eslint ./src/*.js ./test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/winkjs/showcase-writing-assistant.git"
+  },
+  "author": "Sanjaya Kumar Saxena",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/winkjs/showcase-writing-assistant/issues"
+  },
+  "homepage": "http://winkjs.org/",
+  "devDependencies": {
+    "chai": "^4.3.4",
+    "coveralls": "^3.1.1",
+    "eslint": "^7.32.0",
+    "mocha": "^9.1.2",
+    "nyc": "^15.1.0"
+  }
+}

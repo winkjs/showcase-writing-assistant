@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Aleo:wght@700&display=swap');
+
+.checkIncorrectPunctuationSpacing {
+  background-color: #d49fff;
+}
+
+.checkIncorrectContractions {
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #3f4c96;
+}
+
+.checkFirstWordOfSentence {
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #f037a5;
+}
+
+.checkUseOfAdverbs {
+  background-color: #f6d167;
+}
+
+.checkUseOfLongSentence-Long {  
+  background-color: #4dccbd;
+}
+
+.checkUseOfLongSentence-VeryLong {
+  background-color: #8f96fc;
+}
+
+.checkDuplicateWords {
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #71b405;
+}
+
+.avoidAbusiveWords {
+  background-color: #f34213;
+}
+
+.useConsistentSpellings {
+  background-color: #ffd35ba2;
+}
+
+.avoidConstructs {
+  background-color: #ffbaba;
+}
+
+.highlightInterjectionsWithoutPunctuations {
+  background-color: #b1a694;
+}
+
+.highlightWordiness {
+  background-color: #b4846c;
+}
+
+.highlightUseOfOxymoron {
+  background-color: #f7f06c;
+}
+
+.avoidStartingWithConjunctions {
+  background-color: transparent;
+  text-decoration: underline;
+  text-decoration-thickness: 4px;
+  text-decoration-color: #645dd7;
+}
+
+.useConsistentApostrophe {
+  background-color: #a59b89;
+}
+
+.avoidRedundantConstruct {
+  background-color: #b9ff68;
+}

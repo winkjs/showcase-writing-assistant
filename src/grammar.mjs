@@ -50,7 +50,12 @@ module.exports.checkIncorrectContractions = () => {
     token.markup('<mark class="checkIncorrectContractions">', '</mark>')
   })
   if (contractionToken.out().length > 0) {
-    logs.push({'checkIncorrectContractions': contractionToken.out().length + ' contractions are incorrect!'})
+    if (contractionToken.out().length == 1) {
+    logs.push({'checkIncorrectContractions': contractionToken.out().length + ' contraction is incorrect!'})
+    }
+    else
+        logs.push({'checkIncorrectContractions': contractionToken.out().length + ' contractions are incorrect!'})
+
   }
 }
 
@@ -71,8 +76,13 @@ module.exports.checkIncorrectPunctuationSpacing = () => {
     token.markup('<mark class="checkIncorrectPunctuationSpacing" >', '</mark>')
   })
 
-  if (incorrectToken.out().length > 0)
-    logs.push({'checkIncorrectPunctuationSpacing':incorrectToken.out().length + ' punctuations are incorrect!'})
+  if (incorrectToken.out().length > 0){
+      if (incorrectToken.out().length ==  1){
+    logs.push({'checkIncorrectPunctuationSpacing':incorrectToken.out().length + ' punctuation is incorrect!'})
+  }
+  else    logs.push({'checkIncorrectPunctuationSpacing':incorrectToken.out().length + ' punctuations are incorrect!'})
+
+}
 }
 
 /**
@@ -92,8 +102,15 @@ module.exports.checkFirstWordOfSentence = () => {
       }
     })
   }
-  if (count > 0)
-    logs.push({'checkFirstWordOfSentence': count + ' starting words may have incorrect grammar!'})
+  if (count > 0){
+    if (count == 1){
+      logs.push({'checkFirstWordOfSentence': count + ' sentence has incorrect casing!'})
+}
+else
+      logs.push({'checkFirstWordOfSentence': count + ' sentences have incorrect casing!'})
+
+  }
+  
 }
 
 /**
@@ -106,7 +123,14 @@ module.exports.checkUseOfAdverbs = () => {
     .filter((sentence) => sentence.out(its.type) === 'adverbSentences')
   adverbSentence.each((token) => token.markup('<mark class="checkUseOfAdverbs">', '</mark>'))
   if (adverbSentence.out().length > 0)
-    logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs found - be careful not to overuse them!'})
+    if (adverbSentence.out().length ==1)
+
+    logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverb found - be careful not to overuse it!'})
+
+    else
+        logs.push({'checkUseOfAdverbs': adverbSentence.out().length + ' adverbs found - be careful not to overuse them!'})
+
+
 }
 
 /**
@@ -138,10 +162,20 @@ module.exports.checkUseOfLongSentence = () => {
       )
     }
   })
-  if (longSentence > 0)
-    logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
-  if (veryLongSentence > 0)
-    logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are extremely long - try to shorten the length!'})
+  if (longSentence > 0){
+    if (longSentence ==1)
+    logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentence is long - try to shorten the length!'})
+    else
+        logs.push({'checkUseOfLongSentence-Long': longSentence + ' sentences are long - try to shorten the length!'})
+
+  }
+  if (veryLongSentence > 0){
+    if(veryLongSentence ==1)
+    logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentence is extremely long - try to shorten the length!'})
+    else
+        logs.push({'checkUseOfLongSentence-VeryLong': veryLongSentence + ' sentences are extremely long - try to shorten the length!'})
+
+  }
 }
 
 /**
@@ -170,8 +204,14 @@ module.exports.checkDuplicateWords = () => {
         }
       })
     })
-    if (duplicateWord > 0)
+    if (duplicateWord > 0){
+    if(duplicateWord==1)
+      logs.push({'checkDuplicateWords': duplicateWord + ' word has duplicates!'})
+else
       logs.push({'checkDuplicateWords': duplicateWord + ' words have duplicates!'})
+
+    }
+
   }
 }
 
@@ -187,9 +227,14 @@ module.exports.avoidAbusiveWords = () => {
       count+=1
       entity.markup('<mark class="avoidAbusiveWords">', '</mark>')
     })
-    if (count > 0)
+    if (count > 0){
+      if(count==1)
+      logs.push({'avoidAbusiveWords': count + ' abusive word! Avoid it!'})
+      else
       logs.push({'avoidAbusiveWords': count + ' abusive words! Avoid them!'})
-}
+
+
+}}
 
 /**
  * @description Use consistent spellings - either British or American.
@@ -209,9 +254,15 @@ module.exports.useConsistentApostrophe = () => {
       count +=1
       symbol.markup('<mark class="useConsistentApostrophe">', '</mark>')
     })
-  if (count > 0)
+
+  if (count > 0){
+    if(count==1)
     logs.push({'useConsistentApostrophe': count + ' apostrophe not consistent! Use flat apostrophe only!'})
-}
+    else
+    logs.push({'useConsistentApostrophe': count + ' apostrophes not consistent! Use flat apostrophe only!'})
+
+    
+}}
 
 /**
  * @description Avoid use of "am" and "pm" when sentences defines the time of the
@@ -226,7 +277,13 @@ module.exports.avoidRedundantConstruct = () => {
     entity.markup('<mark class="avoidRedundantConstruct">', '</mark>')
   })
   if (count > 0)
-    logs.push({'avoidRedundantConstruct': count + ' redundant constructs! Not necessarily wrong, but avoid them!'})
+  {
+    if(count==1)
+    logs.push({'avoidRedundantConstruct': count + ' redundant construct! Not necessarily wrong, but avoid it!'})
+    else
+        logs.push({'avoidRedundantConstruct': count + ' redundant constructs! Not necessarily wrong, but avoid them!'})
+
+  }
 }
 
 /**
@@ -256,7 +313,14 @@ module.exports.highlightInterjectionsWithoutPunctuations = () => {
         })
   }
   if (count > 0)
-    logs.push({'highlightInterjectionsWithoutPunctuations': count + ' incorrect interjections without proper punctuations! Use the following - "!", ".", "," OR "?".'})
+  {
+    if(count==1)
+    logs.push({'highlightInterjectionsWithoutPunctuations': count + ' incorrect interjection without proper punctuation! Use the following - "!", ".", "," OR "?".'})
+    else
+        logs.push({'highlightInterjectionsWithoutPunctuations': count + ' incorrect interjections without proper punctuations! Use the following - "!", ".", "," OR "?".'})
+
+
+}
 }
 
 /**
@@ -272,8 +336,13 @@ module.exports.highlightWordiness = () => {
       entity.markup('<mark class="highlightWordiness">', '</mark>')
     })
   if (count > 0)  
-    logs.push({'highlightWordiness': count + ' phrases have been found with wordiness. It is advisible to update them.'})
-}
+  {
+    if(count==1)
+    logs.push({'highlightWordiness': count + ' phrase have been found with wordiness. It is advisable to update it.'})
+    else
+        logs.push({'highlightWordiness': count + ' phrases have been found with wordiness. It is advisable to update them.'})
+
+}}
 
 /** 
  * @description A function that highlights the use of oxymoron.
@@ -287,7 +356,14 @@ module.exports.highlightUseOfOxymoron = () => {
       entity.markup('<mark class="highlightUseOfOxymoron">', '</mark>')
     })
   if (count > 0)
-    logs.push({'highlightUseOfOxymoron': count + ' oxymorons detected! Careful while using them!'})
+  {
+    if(count==1)
+    logs.push({'highlightUseOfOxymoron': count + ' oxymoron detected! Careful while using it!'})
+
+    else
+        logs.push({'highlightUseOfOxymoron': count + ' oxymorons detected! Careful while using them!'})
+
+  }
 }
 
 /**
@@ -314,5 +390,11 @@ module.exports.avoidStartingWithConjunctions = () => {
     })
   }
   if (count > 0)
-    logs.push({'avoidStartingWithConjunctions': count + ' conjunctions! Avoid using them!'})
+  { if(count==1)
+    logs.push({'avoidStartingWithConjunctions': count + ' sentence starting with conjunction! Avoid it!'})
+
+    else
+        logs.push({'avoidStartingWithConjunctions': count + ' sentences starting with conjunction! Avoid them!'})
+
+}
 }
